@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "58320716179",
+    "project_id": "my-password-95ec5",
+    "storage_bucket": "my-password-95ec5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:58320716179:android:fe3fa73b2584406c00e866",
+        "android_client_info": {
+          "package_name": "com.elsner.my_pswd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "58320716179-mkqk4aororvpvf5spvodc1pibj3mdvns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBon28hHylSW5-LLkBvouv_NOgC-LG3yXM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "58320716179-mkqk4aororvpvf5spvodc1pibj3mdvns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

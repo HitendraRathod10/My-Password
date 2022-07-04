@@ -1,8 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
+import 'package:my_pswd/Login%20Screen/provider/login_provider.dart';
+import 'package:my_pswd/Register%20Screen/design/register_screen.dart';
+import 'package:my_pswd/Register%20Screen/provider/register_provider.dart';
+import 'package:my_pswd/Splash%20Screen/design/splash_screen.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -11,13 +19,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => RegisterProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: RegisterScreen(),
+        // home: SplashScreen(),
+        // home: LoginScreen(),
       ),
-      home: LoginScreen(),
     );
   }
 }
