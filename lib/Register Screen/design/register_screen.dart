@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   // enabled: snapshot.isRegister ? false : true,
                   controller: lastNameController,
                   focusNode: myFocusNodeLastName,
-                  textInputAction: TextInputAction.done,
+                  textInputAction: TextInputAction.next,
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(0),
                     prefixIcon: Icon(Icons.person, color: AppColor.darkMaroon),
@@ -243,15 +243,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     color: AppColor.darkMaroon,
                                   )
                                 : const Icon(Icons.visibility_off,
-                                    color: AppColor.darkMaroon)),
+                                    color: AppColor.darkMaroon
+                            )
+                        ),
                         contentPadding: const EdgeInsets.all(0),
-                        prefixIcon: const Icon(Icons.lock, color: AppColor.darkMaroon),
+                        prefixIcon: const Icon(
+                            Icons.lock,
+                            color: AppColor.darkMaroon
+                        ),
                         focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: AppColor.darkGrey)),
+                            borderSide: BorderSide(
+                                color: AppColor.darkGrey
+                            )
+                        ),
                         labelText: 'Confirm Password',
                         labelStyle: const TextStyle(
                             color: AppColor.greyDivider,
-                            fontFamily: AppFont.regular),
+                            fontFamily: AppFont.regular
+                        ),
                       ),
                       validator: (val) {
                         if (val!.isEmpty) return 'Please enter confirm password';
@@ -272,7 +281,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         firstNameController.text,
                         lastNameController.text,
                         phoneController.text,
-                      context
+                        context
                     );
                   }else{
                     print("else formkey register screen");
@@ -292,7 +301,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           color: AppColor.white,
                           fontSize: 25,
                           fontWeight: FontWeight.bold,
-                          fontFamily: AppFont.semiBold),
+                          fontFamily: AppFont.semiBold
+                      ),
                     ),
                   ),
                 ),
@@ -319,7 +329,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: const Text(
                 "Login",
                 style: TextStyle(
-                    fontFamily: AppFont.regular, color: AppColor.darkMaroon),
+                    fontFamily: AppFont.regular,
+                    color: AppColor.darkMaroon
+                ),
               )),
             ),
           ],
