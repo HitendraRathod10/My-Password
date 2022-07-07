@@ -35,10 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> get _pages => <Widget>[
-    // Icon(
-    //   Icons.security,
-    //   size: 150,
-    // ),
     PasswordScreen(),
 
     Icon(
@@ -103,8 +99,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: _pages.elementAt(_selectedIndex),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: AppColor.darkMaroon,
-          selectedItemColor: AppColor.white,
+          backgroundColor: AppColor.white,
+          selectedItemColor: AppColor.darkMaroon,
           selectedLabelStyle: const TextStyle(
             fontFamily: AppFont.regular
           ),
