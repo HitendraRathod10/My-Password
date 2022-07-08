@@ -5,6 +5,7 @@ import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
 import 'package:my_pswd/Login%20Screen/provider/login_provider.dart';
 import 'package:my_pswd/Password%20Screen/provider/add_data_provider.dart';
+import 'package:my_pswd/Password%20Screen/provider/password_provider.dart';
 import 'package:my_pswd/Register%20Screen/design/register_screen.dart';
 import 'package:my_pswd/Register%20Screen/provider/register_provider.dart';
 import 'package:my_pswd/Splash%20Screen/design/splash_screen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => RegisterProvider()),
         ChangeNotifierProvider(create: (context) => AddDataProvider()),
+        ChangeNotifierProvider(create: (context) => PasswordProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

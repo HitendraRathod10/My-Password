@@ -203,7 +203,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
             InkWell(
@@ -219,7 +219,21 @@ class _AddDataScreenState extends State<AddDataScreen> {
                   context
                 );
               },
-              child: Container(
+              child: Provider.of<AddDataProvider>(context,listen: false).isLoading == true
+                  ?
+              Container(
+                height: 45,
+                width: 95,
+                decoration: BoxDecoration(
+                  color: AppColor.darkMaroon,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child:  const Center(
+                  child: CircularProgressIndicator(color: AppColor.white,)
+                ),
+              )
+                  :
+              Container(
                 height: 45,
                 width: 95,
                 decoration: BoxDecoration(
@@ -238,7 +252,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
           ],

@@ -7,9 +7,11 @@ import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 
 class AddDataProvider extends ChangeNotifier {
   final firebase = FirebaseFirestore.instance;
+  bool? isLoading;
 
   addData(String appName, String userName, String userId, String emailId, String phone,
       String creditDebitCard, String passwordPin,BuildContext context) async {
+    isLoading = true;
     print("email ${FirebaseAuth.instance.currentUser?.email}");
     await FirebaseFirestore.instance
         .collection('User')
@@ -25,7 +27,7 @@ class AddDataProvider extends ChangeNotifier {
       "creditDebitCard": creditDebitCard,
       "passwordPin": passwordPin
     });
-    EasyLoading.showToast("Data added successfully.");
+    isLoading = false;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
     notifyListeners();
   }

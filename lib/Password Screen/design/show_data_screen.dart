@@ -73,101 +73,95 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
       body: StreamBuilder<QuerySnapshot>(
         stream: firebase.collection('User').doc(FirebaseAuth.instance.currentUser?.email).collection("Data").snapshots(),
         builder: (context, snapshot) {
-          return Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 15, 15, 00),
-                child: Container(
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 15, 15, 00),
                   child: Row(
                     children: [
                       const Text("App Name : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
-                      Flexible(child: Text("${widget.doc!.get("appName")}",style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
+                      Flexible(child: Text("${widget.doc!.get("appName")}",
+                        style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
                     ],
                   ),
                 ),
-              ),
-              const Divider(
-                color: AppColor.black,
-                thickness: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
-                child: Container(
+                const Divider(
+                  color: AppColor.black,
+                  thickness: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
                   child: Row(
                     children: [
                       const Text("User Name : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
-                      Flexible(child: Text("${widget.doc!.get("userName")}",style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
+                      Flexible(child: Text("${widget.doc!.get("userName")}",
+                        style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
                     ],
                   ),
                 ),
-              ),
-              const Divider(
-                color: AppColor.black,
-                thickness: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
-                child: Container(
+                const Divider(
+                  color: AppColor.black,
+                  thickness: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
                   child: Row(
                     children: [
                       const Text("User Id / Upi Id : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
-                      Flexible(child: Text("${widget.doc!.get("userId")}",style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
+                      Flexible(child: Text("${widget.doc!.get("userId")}",
+                        style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
                     ],
                   ),
                 ),
-              ),
-              const Divider(
-                color: AppColor.black,
-                thickness: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
-                child: Container(
+                const Divider(
+                  color: AppColor.black,
+                  thickness: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
                   child: Row(
                     children: [
                       const Text("Email Id : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
-                      Flexible(child: Text("${widget.doc!.get("emailId")}",style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
+                      Flexible(child: Text("${widget.doc!.get("emailId")}",
+                        style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
                     ],
                   ),
                 ),
-              ),
-              const Divider(
-                color: AppColor.black,
-                thickness: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
-                child: Container(
+                const Divider(
+                  color: AppColor.black,
+                  thickness: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
                   child: Row(
                     children: [
                       const Text("Phone no. : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
-                      Flexible(child: Text("${widget.doc!.get("phone")}",style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
+                      Flexible(child: Text("${widget.doc!.get("phone")}",
+                        style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
                     ],
                   ),
                 ),
-              ),
-              const Divider(
-                color: AppColor.black,
-                thickness: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
-                child: Container(
+                const Divider(
+                  color: AppColor.black,
+                  thickness: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
                   child: Row(
                     children: [
                       const Text("Credit/Debit Card No. : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
-                      Flexible(child: Text("${widget.doc!.get("creditDebitCard")}",style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
+                      Flexible(child: Text("${widget.doc!.get("creditDebitCard")}",
+                        style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
                     ],
                   ),
                 ),
-              ),
-              const Divider(
-                color: AppColor.black,
-                thickness: 1,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 00, 15, 00),
-                child: Container(
+                const Divider(
+                  color: AppColor.black,
+                  thickness: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 00, 15, 00),
                   child: Row(
                     children: [
                       const Text("Password/PIN : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
@@ -177,7 +171,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                         style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       InkWell(
                         onTap: (){
                           Clipboard.setData(
@@ -186,15 +180,13 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                               )
                           );
                         },
-                        child: Container(
-                          child: Icon(Icons.copy),
-                        ),
+                        child: const Icon(Icons.copy),
                       )
                     ],
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           );
         }
       ),
