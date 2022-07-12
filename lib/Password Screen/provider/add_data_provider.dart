@@ -8,9 +8,10 @@ import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 class AddDataProvider extends ChangeNotifier {
   final firebase = FirebaseFirestore.instance;
   bool? isLoading;
+  bool isObscurePassword = true;
 
   addData(String appName, String userName, String userId, String emailId, String phone,
-      String creditDebitCard, String passwordPin,BuildContext context) async {
+  String accountNo, String ifscCode, String creditDebitCard, String cvv,String passwordPin,BuildContext context) async {
     isLoading = true;
     print("email ${FirebaseAuth.instance.currentUser?.email}");
     await FirebaseFirestore.instance
@@ -24,11 +25,19 @@ class AddDataProvider extends ChangeNotifier {
       "userId": userId,
       "emailId": emailId,
       "phone": phone,
+      "accountNo": accountNo,
+      "ifscCode": ifscCode,
       "creditDebitCard": creditDebitCard,
+      "cvv": cvv,
       "passwordPin": passwordPin
     });
     isLoading = false;
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+    notifyListeners();
+  }
+
+  checkPasswordVisibility() {
+    isObscurePassword=!isObscurePassword;
     notifyListeners();
   }
 }

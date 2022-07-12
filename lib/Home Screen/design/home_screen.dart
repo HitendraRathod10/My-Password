@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_pswd/Notes%20Screen/design/notes_screen.dart';
 import 'package:my_pswd/Password%20Screen/design/password_screen.dart';
 import 'package:my_pswd/utils/app_color.dart';
 import 'package:my_pswd/utils/app_font.dart';
 import 'package:my_pswd/utils/app_image.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../Login Screen/design/login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  check() async{
+  check() async {
     SharedPreferences prefg = await SharedPreferences.getInstance();
     prefg.setBool("key", true);
   }
@@ -36,12 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> get _pages => <Widget>[
     PasswordScreen(),
-
-    Icon(
-      Icons.notes_rounded,
-      size: 150,
-    ),
-    Icon(
+    NotesScreen(),
+    // const Icon(
+    //   Icons.notes_rounded,
+    //   size: 150,
+    // ),
+    const Icon(
       Icons.picture_as_pdf,
       size: 150,
     ),
@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
               prefg.clear();
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> LoginScreen()));
             },
-                icon: Icon(
+                icon: const Icon(
                     Icons.power_settings_new,
                   color: AppColor.white,
                   size: 27,

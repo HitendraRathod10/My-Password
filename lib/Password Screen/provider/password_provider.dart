@@ -6,11 +6,11 @@ class PasswordProvider extends ChangeNotifier{
 
   final firebase = FirebaseFirestore.instance;
 
-   deleteData(DocumentSnapshot x){
-    try{
-       firebase.collection("User").doc(FirebaseAuth.instance.currentUser!.email).collection("Data").doc(x.id).delete();
-    }catch(e){
-      print(e);
-    }
-  }
+  //  deleteData(DocumentSnapshot x){
+  //   try{
+  //      firebase.collection("User").doc(FirebaseAuth.instance.currentUser!.email).collection("Data").doc(x.id).delete();
+  //   }catch(e){
+  //     print(e);
+  //   }
+  // }
 }

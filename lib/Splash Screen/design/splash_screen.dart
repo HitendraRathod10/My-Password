@@ -39,11 +39,11 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: AppColor.darkMaroon,
+        // backgroundColor: AppColor.darkMaroon,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               // Container(
               //   child: Image.asset(
               //     AppImage.splashLogo,
@@ -51,11 +51,11 @@ class _SplashScreenState extends State<SplashScreen> {
               //     width: 200,
               //   ),
               // ),
-              const Text("My Password...",
+              Text("My Password...",
                 style: TextStyle(
                     fontSize: 25,
                     fontFamily: AppFont.extraBold,
-                    color: AppColor.white
+                    color: AppColor.darkMaroon
                 ),
               )
             ],

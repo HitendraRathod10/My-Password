@@ -44,8 +44,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
       body: StreamBuilder(
         stream: firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data").snapshots(),
         builder: (context,AsyncSnapshot<QuerySnapshot<Object?>> snapshot) {
-          if (!snapshot.hasData) return loader();
-          // if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: AppColor.darkMaroon,));
+          // if (!snapshot.hasData) return loader();
+          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: AppColor.darkMaroon,));
           if(snapshot.data!.size ==0) {
             EasyLoading.dismiss();
             return const Center(
@@ -63,49 +63,43 @@ class _PasswordScreenState extends State<PasswordScreen> {
               ListView.builder(
                 itemCount: snapshot.data!.docChanges.length,
                 itemBuilder: (context, index) {
-                  // DocumentSnapshot<Object?> x = snapshot.data!.docChanges[index].doc;
                   return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>
                           ShowDataScreen(snapshot.data!.docChanges[index].doc)));
                     },
                     child: Slidable(
-                      closeOnScroll: true,
-                      endActionPane: const ActionPane(
-                        extentRatio: 0.20,
+                      actionPane: const SlidableDrawerActionPane(),
+                      actionExtentRatio: 0.25,
+                      secondaryActions: [
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () {
+                            var x = snapshot.data!.docChanges[index];
+                            firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data").doc(x.doc.id).delete();
+                            setState(() {});
+                          },
+                        ),
+                      ],
+                      child: Column(
                         children: [
-                          SlidableAction(
-                            autoClose: true,
-                            onPressed: null,
-                            // onPressed: deleteData(snapshot.data!.docChanges[index].doc.id),
-                            // Provider.of<PasswordProvider>(context,listen: false).deleteData(),
-                            backgroundColor: Color(0xFFFE4A49),
-                            foregroundColor: Colors.white,
-                            icon: Icons.delete,
-                            label: 'Delete',
-                          ),
-                        ],
-                        motion: ScrollMotion(),
-                      ),
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Card(
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: AppColor.darkMaroon,
-                                    child: Text("${index+1}",
-                                      style: const TextStyle(
-                                          color: AppColor.white
-                                      ),
+                          Card(
+                              child: ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: AppColor.darkMaroon,
+                                  child: Text("${index+1}",
+                                    style: const TextStyle(
+                                        color: AppColor.white
                                     ),
                                   ),
-                                  title: Text("${snapshot.data!.docChanges[index].doc.get("appName")}"),
-                                  trailing: const Icon(Icons.chevron_right),
-                                )
-                            ),
-                          ],
-                        ),
+                                ),
+                                title: Text("${snapshot.data!.docChanges[index].doc.get("appName")}"),
+                                trailing: const Icon(Icons.chevron_right),
+                              )
+                          ),
+                        ],
                       ),
                     ),
                   );
@@ -118,9 +112,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
       ),
     );
   }
-
-  deleteData(index) {
-    print(index);
-    firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data").doc(index.toString()).delete();
-  }
+  // deleteData(index) {
+  //   print(index);
+  //   setState(() {
+  //     firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data").doc(index.toString()).delete();
+  //   });
+  // }
 }
