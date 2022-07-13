@@ -4,6 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
 import 'package:my_pswd/Login%20Screen/provider/login_provider.dart';
+import 'package:my_pswd/Notes%20Screen/provider/add_note_provider.dart';
 import 'package:my_pswd/Password%20Screen/provider/add_data_provider.dart';
 import 'package:my_pswd/Password%20Screen/provider/password_provider.dart';
 import 'package:my_pswd/Password%20Screen/provider/show_data_provider.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PasswordProvider()),
         ChangeNotifierProvider(create: (context) => UpdateDataProvider()),
         ChangeNotifierProvider(create: (context) => ShowDataProvider()),
+        ChangeNotifierProvider(create: (context) => AddNoteProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

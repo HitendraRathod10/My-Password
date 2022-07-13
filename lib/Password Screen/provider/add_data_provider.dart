@@ -13,7 +13,7 @@ class AddDataProvider extends ChangeNotifier {
   addData(String appName, String userName, String userId, String emailId, String phone,
   String accountNo, String ifscCode, String creditDebitCard, String cvv,String passwordPin,BuildContext context) async {
     isLoading = true;
-    print("email ${FirebaseAuth.instance.currentUser?.email}");
+    // print("email ${FirebaseAuth.instance.currentUser?.email}");
     await FirebaseFirestore.instance
         .collection('User')
         .doc(FirebaseAuth.instance.currentUser?.email)

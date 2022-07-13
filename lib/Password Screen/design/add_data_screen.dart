@@ -20,16 +20,16 @@ class _AddDataScreenState extends State<AddDataScreen> {
   var cvvController = TextEditingController();
   var ifscController = TextEditingController();
   var accountNoController = TextEditingController();
-  FocusNode appNameFocusNode = new FocusNode();
-  FocusNode userNameFocusNode = new FocusNode();
-  FocusNode upiUserIdFocusNode = new FocusNode();
-  FocusNode passwordPINFocusNode = new FocusNode();
-  FocusNode phoneFocusNode = new FocusNode();
-  FocusNode emailFocusNode = new FocusNode();
-  FocusNode creditDebitFocusNode = new FocusNode();
-  FocusNode cvvFocusNode = new FocusNode();
-  FocusNode ifscFocusNode = new FocusNode();
-  FocusNode accountNoFocusNode = new FocusNode();
+  FocusNode appNameFocusNode = FocusNode();
+  FocusNode userNameFocusNode = FocusNode();
+  FocusNode upiUserIdFocusNode = FocusNode();
+  FocusNode passwordPINFocusNode = FocusNode();
+  FocusNode phoneFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode creditDebitFocusNode = FocusNode();
+  FocusNode cvvFocusNode = FocusNode();
+  FocusNode ifscFocusNode = FocusNode();
+  FocusNode accountNoFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   @override

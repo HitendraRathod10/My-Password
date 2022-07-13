@@ -137,7 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   if(_formKey.currentState!.validate()){
                     Provider.of<LoginProvider>(context,listen: false).
                     loginWithEmail(emailController.text, passwordController.text,context);
-                    Provider.of<LoginProvider>(context,listen: false).checkPasswordVisibility();
+                    // Provider.of<LoginProvider>(context,listen: false).checkPasswordVisibility();
                   }else{
                     print('else formkey loginscreen');
                   }
