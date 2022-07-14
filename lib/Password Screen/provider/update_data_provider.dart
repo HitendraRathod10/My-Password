@@ -15,7 +15,7 @@ class UpdateDataProvider extends ChangeNotifier{
       String cvv, String passwordPin,
       String id, BuildContext context) async{
     isLoading = true;
-    print("email ${FirebaseAuth.instance.currentUser?.email}");
+    // print("email ${FirebaseAuth.instance.currentUser?.email}");
     await FirebaseFirestore.instance
         .collection('User')
         .doc(FirebaseAuth.instance.currentUser?.email)
