@@ -52,6 +52,8 @@ class _NotesScreenState extends State<NotesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // String blankController = Provider.of<ShowUpdateNoteProvider>(context,listen: false).noteController.text;
+
     // print("notes screen to showNote id ${widget.doc!.id}");
     // Provider.of<ShowUpdateNoteProvider>(context,listen: false).getData(widget.id!);
   }
@@ -141,16 +143,11 @@ class _NotesScreenState extends State<NotesScreen> {
                             ),
                           ),
                           onTap: (){
-                            var x = snapshot.data!.docChanges[index];
-                            var idForSend = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(x.doc.id);
-                            print("idForSend ${idForSend}");
-                            // var id = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data").doc(x.doc.id);
-                            // print("only id ${id}");
-                            // print("Go to ${firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data").doc(x.doc.id)}");
-                            // go to particular note for edit or view
-                            // print("notes screen to showNote id ${widget.doc!.id}");
+                            String x = snapshot.data!.docChanges[index].doc.id;
+                            // var idForSend = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(x.doc.id).id;
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ShowNoteScreen(
-                              id: firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(x.doc.id.toString()),
+                              id: x
+                              // firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(x.doc.id),
                             )));
                           },
                         );

@@ -11,11 +11,11 @@ class ShowUpdateNoteProvider extends ChangeNotifier{
   bool isLoading = false;
 
   getData(String id) async{
-    print("got ${id}");
+    // print("got ${id}");
     CollectionReference  collection = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes");
     querySnapshots = await collection.doc(id).get();
     noteController.text = querySnapshots.get("note");
-    print("in getData note ${noteController.text}");
+    // print("in getData note ${noteController.text}");
     notifyListeners();
   }
 

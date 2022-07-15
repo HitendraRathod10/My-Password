@@ -18,15 +18,14 @@ class ShowNoteScreen extends StatefulWidget {
 }
 
 class _ShowNoteScreenState extends State<ShowNoteScreen> {
-  String lastId = "";
-
+  // String emaiId = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    lastId = widget.id.toString().replaceAll("DocumentReference<Map<String, dynamic>>(User/dheba@gmail.com/Notes/", "").replaceAll(")", "");
-    print("lastID ${lastId}");
-    Provider.of<ShowUpdateNoteProvider>(context,listen: false).getData(lastId);
+    // emaiId = widget.id.toString().substring(widget.id.toString().length - 21);
+    // emaiId = emaiId.replaceAll(")", "");
+    Provider.of<ShowUpdateNoteProvider>(context,listen: false).getData(widget.id);
   }
   final firebase = FirebaseFirestore.instance;
   FocusNode appNameFocusNode = FocusNode();
@@ -85,7 +84,7 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
                 color: AppColor.black,
               ),
               onPressed: () {
-                firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(lastId).delete();
+                firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(widget.id).delete();
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
               },
             ),
@@ -101,7 +100,7 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
               onPressed: () {
                 var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
                 // Provider.of<AddNoteProvider>(context,listen: false).addNote(noteController.text, context);
-                Provider.of<ShowUpdateNoteProvider>(context,listen: false).updateData(snapshotData.noteController.text, lastId, context);
+                Provider.of<ShowUpdateNoteProvider>(context,listen: false).updateData(snapshotData.noteController.text, widget.id, context);
                 // Navigator.pop(context);
                 // Get.back();
               },
