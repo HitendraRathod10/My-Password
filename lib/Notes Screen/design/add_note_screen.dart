@@ -71,7 +71,11 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                   color: AppColor.black,
                 ),
                 onPressed: () {
-                  Provider.of<AddNoteProvider>(context,listen: false).addNote(noteController.text, context);
+                  if(noteController.text.isEmpty || noteController.text == "" || noteController.text.trim() == ""){
+                    print("This is wrong");
+                  }else{
+                    Provider.of<AddNoteProvider>(context,listen: false).addNote(noteController.text, context);
+                  }
                   // Navigator.pop(context);
                   // Get.back();
                 },

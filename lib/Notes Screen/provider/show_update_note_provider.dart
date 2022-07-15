@@ -33,4 +33,14 @@ class ShowUpdateNoteProvider extends ChangeNotifier{
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
     notifyListeners();
   }
+
+  deleteNote()async {
+    var collection = FirebaseFirestore.instance.collection('User').doc(
+        FirebaseAuth.instance.currentUser!.email).collection("Notes");
+    var snapshot = await collection.where('note', isEqualTo: "").get();
+    for (var doc in snapshot.docs) {
+      await doc.reference.delete();
+      notifyListeners();
+    }
+  }
 }

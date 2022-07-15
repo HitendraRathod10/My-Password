@@ -18,6 +18,9 @@ class AddNoteProvider extends ChangeNotifier{
         .set({
       "note": note,
     });
+    // Navigator.popAndPushNamed(context, '/home');
+    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
+    // Navigator.pop(context);
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
     // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>NotesScreen()), (route) => false);
     notifyListeners();

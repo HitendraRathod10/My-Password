@@ -52,11 +52,22 @@ class _NotesScreenState extends State<NotesScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // Provider.of<ShowUpdateNoteProvider>(context,listen: false).deleteNote();
+    // deleteNote();
     // String blankController = Provider.of<ShowUpdateNoteProvider>(context,listen: false).noteController.text;
-
+    // var data =
+    // firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc("g882gFtvNGlhAFTtFtNk").delete();
+    // print(firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc("LIM8F6CWGFUMuEmXPEBS").delete());
+    // print("data $data");
+    // var snapshot = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").get();
+    // print(snapshot);
+    // for(var x in ){
+    //   var idForSend = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(x.doc.id).id.contains("");
+    // }
+    }
     // print("notes screen to showNote id ${widget.doc!.id}");
     // Provider.of<ShowUpdateNoteProvider>(context,listen: false).getData(widget.id!);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +86,11 @@ class _NotesScreenState extends State<NotesScreen> {
       body: StreamBuilder(
         stream: firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").snapshots(),
         builder: (context,AsyncSnapshot<QuerySnapshot<Object?>> snapshot){
+
+          // Future.delayed(const Duration(seconds: 5), () {
+          //   Provider.of<ShowUpdateNoteProvider>(context,listen: false).deleteNote();
+          // });
+
           if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: AppColor.darkMaroon,));
           if(snapshot.data!.size ==0) {
             EasyLoading.dismiss();
@@ -152,6 +168,7 @@ class _NotesScreenState extends State<NotesScreen> {
                           },
                         );
                       },
+                      // childCount: snapshot.data.docChanges.
                       childCount: snapshot.data!.docChanges.length
                   ),
                   // semanticChildCount:10
