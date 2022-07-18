@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_pswd/Docs%20Screen/design/docs_screen.dart';
 import 'package:my_pswd/Notes%20Screen/design/notes_screen.dart';
 import 'package:my_pswd/Password%20Screen/design/password_screen.dart';
 import 'package:my_pswd/utils/app_color.dart';
@@ -37,14 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> get _pages => <Widget>[
     PasswordScreen(),
     NotesScreen(),
+    DocsScreen()
     // const Icon(
     //   Icons.notes_rounded,
     //   size: 150,
     // ),
-    const Icon(
-      Icons.picture_as_pdf,
-      size: 150,
-    ),
+    // const Icon(
+    //   Icons.picture_as_pdf,
+    //   size: 150,
+    // ),
   ];
 
   @override
