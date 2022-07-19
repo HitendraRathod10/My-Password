@@ -86,7 +86,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       child: Column(
                         children: [
                           Card(
-                            color: (index % 2 == 0) ? Colors.grey.shade400 : AppColor.white,
+                            color: (index % 2 == 0) ? Colors.grey.shade300 : AppColor.white,
                             // color: (index % 2 == 0) ? AppColor.white : Colors.grey.shade400,
                               child: ListTile(
                                 leading: CircleAvatar(

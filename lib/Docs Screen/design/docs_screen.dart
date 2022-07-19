@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:my_pswd/Docs%20Screen/design/show_doc_screen.dart';
 import 'package:my_pswd/Docs%20Screen/provider/docs_provider.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
@@ -28,7 +29,7 @@ class _DocsScreenState extends State<DocsScreen> {
         backgroundColor: AppColor.darkMaroon,
         child: const Icon(Icons.add),
         onPressed: () async {
-          Provider.of<DocsProvider>(context,listen: false).pickFiles();
+          Provider.of<DocsProvider>(context,listen: false).pickFiles(context);
         },
       ),
       body: StreamBuilder(
@@ -57,6 +58,12 @@ class _DocsScreenState extends State<DocsScreen> {
                         onTap: (){
                         //   Navigator.push(context, MaterialPageRoute(builder: (context)=>
                         //       ShowDataScreen(snapshot.data!.docChanges[index].doc)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                              ShowDocScreen(
+                                name: snapshot.data!.docChanges[index].doc.get("name"),
+                                doc: snapshot.data!.docChanges[index].doc.get("doc"),
+                              )
+                          ));
                         },
                         child: Slidable(
                           actionPane: const SlidableDrawerActionPane(),
@@ -77,11 +84,11 @@ class _DocsScreenState extends State<DocsScreen> {
                             children: [
                               Card(
                                   // color: (index % 2 == 0) ? Colors.grey.shade400 : AppColor.white,
-                                  // color: (index % 2 == 0) ? AppColor.white : Colors.grey.shade400,
+                                  color: (index % 2 == 0) ? AppColor.white : Colors.grey.shade300,
                                   child: ListTile(
                                     leading: ClipOval(
                                       child: snapshot.data!.docChanges[index].doc.get("doc").toString().contains("pdf") ?
-                                      const Icon(Icons.picture_as_pdf,color: AppColor.redMed,size: 40)
+                                      const Icon(Icons.description,color: AppColor.redMed,size: 55)
                                       :
                                       Image.network(snapshot.data!.docChanges[index].doc.get("doc"),fit: BoxFit.cover,height: 60,width: 60),
                                     ),

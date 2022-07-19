@@ -5,8 +5,10 @@ import 'package:my_pswd/Password%20Screen/design/password_screen.dart';
 import 'package:my_pswd/utils/app_color.dart';
 import 'package:my_pswd/utils/app_font.dart';
 import 'package:my_pswd/utils/app_image.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Login Screen/design/login_screen.dart';
+import '../provider/home_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -27,28 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
     check();
   }
 
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  List<Widget> get _pages => <Widget>[
-    PasswordScreen(),
-    NotesScreen(),
-    DocsScreen()
-    // const Icon(
-    //   Icons.notes_rounded,
-    //   size: 150,
-    // ),
-    // const Icon(
-    //   Icons.picture_as_pdf,
-    //   size: 150,
-    // ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,15 +36,21 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           // backgroundColor: AppColor.white,
           backgroundColor: AppColor.darkMaroon,
-          title: const Text(
-            "My Password",
-          style: TextStyle(
-            // color: AppColor.black,
-            color: AppColor.white,
-            fontFamily: AppFont.semiBold,
-            fontSize: 25
+          title:
+           Consumer<HomeProvider>(
+             builder: (context, snapshot,_) {
+               return
+               Text(
+                snapshot.selectedIndex == 0 ? "My Passwords" : snapshot.selectedIndex == 1 ? "My Notes" : "My Documents",
+                style: const TextStyle(
+                // color: AppColor.black,
+                color: AppColor.white,
+                fontFamily: AppFont.semiBold,
+                fontSize: 25
           ),
-          ),
+          );
+             }
+           ),
           actions: [
             IconButton(onPressed: () async {
               SharedPreferences prefg = await SharedPreferences.getInstance();
@@ -97,34 +83,43 @@ class _HomeScreenState extends State<HomeScreen> {
             )*/
           ],
         ),
-        body: Center(
-          child: _pages.elementAt(_selectedIndex),
+        body: Consumer<HomeProvider>(
+          builder: (context, snapshot,_) {
+            return snapshot.pages[snapshot.selectedIndex];
+          },
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: AppColor.white,
-          selectedItemColor: AppColor.darkMaroon,
-          selectedLabelStyle: const TextStyle(
-            fontFamily: AppFont.regular
-          ),
-          unselectedLabelStyle: const TextStyle(
-            fontFamily: AppFont.regular
-          ),
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.storage),
-              label: 'Password',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notes),
-              label: 'Notes',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.description),
-              label: 'Docs',
-            ),
-          ],
+        // Center(
+        //       child: Provider.of<HomeProvider>(context,listen: false).pages.elementAt(Provider.of<HomeProvider>(context,listen: false).selectedIndex),
+        //     ),
+        bottomNavigationBar: Consumer<HomeProvider>(
+          builder: (context, snapshot,_) {
+            return BottomNavigationBar(
+              backgroundColor: AppColor.white,
+              selectedItemColor: AppColor.darkMaroon,
+              selectedLabelStyle: const TextStyle(
+                fontFamily: AppFont.regular
+              ),
+              unselectedLabelStyle: const TextStyle(
+                fontFamily: AppFont.regular
+              ),
+              currentIndex: snapshot.selectedIndex,
+              onTap: snapshot.onItemTapped,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.storage),
+                  label: 'Password',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.notes),
+                  label: 'Note',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.description),
+                  label: 'Document',
+                ),
+              ],
+            );
+          }
         ),
       ),
     );

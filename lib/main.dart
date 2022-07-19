@@ -1,8 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:my_pswd/Docs%20Screen/design/docs_screen.dart';
 import 'package:my_pswd/Docs%20Screen/provider/docs_provider.dart';
 import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
+import 'package:my_pswd/Home%20Screen/provider/home_provider.dart';
 import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
 import 'package:my_pswd/Login%20Screen/provider/login_provider.dart';
 import 'package:my_pswd/Notes%20Screen/provider/add_note_provider.dart';
@@ -38,8 +40,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AddNoteProvider()),
         ChangeNotifierProvider(create: (context) => ShowUpdateNoteProvider()),
         ChangeNotifierProvider(create: (context) => DocsProvider()),
+        ChangeNotifierProvider(create: (context) => HomeProvider()),
       ],
       child: MaterialApp(
+        routes: {
+          '/Docs': (context) => DocsScreen(),
+        },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
