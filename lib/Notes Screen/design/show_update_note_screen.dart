@@ -99,6 +99,8 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
                 onPressed: () {
                   firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(widget.id).delete();
                   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                  var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
+                  snapshotData.noteController.clear();
                 },
               ),
             ),

@@ -1,4 +1,8 @@
+import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../utils/app_color.dart';
@@ -28,7 +32,16 @@ class _ShowDocScreenState extends State<ShowDocScreen> {
         title: const Text("Doc"),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                final imageurl = '${widget.doc}';
+                final uri = Uri.parse(imageurl);
+                final response = await http.get(uri);
+                final bytes = response.bodyBytes;
+                final temp = await getTemporaryDirectory();
+                final path = '${temp.path}/${widget.name}';
+                File(path).writeAsBytesSync(bytes);
+                await Share.shareFiles([path]);
+              },
               icon: const Icon(
                 Icons.share,
                 color: AppColor.white,
@@ -45,21 +58,23 @@ class _ShowDocScreenState extends State<ShowDocScreen> {
             child: Container(
               height: 400,
               width: 400,
-              color: Colors.redAccent,
+              // color: Colors.redAccent,
               child: Image.network('${widget.doc}',
                   fit: BoxFit.fill
               ),
             ),
           )
         ],
-      ) : widget.doc!.contains(".pdf") ?
-          Center(
+      ) :
+      widget.doc!.contains(".pdf") ?
+          Padding(
+            padding: const EdgeInsets.all(10.0),
             child: SfPdfViewer.network(
               '${widget.doc}',
             ),
           ) :
       Column(
-        children: [
+        children: const [
           Text("data")
         ],
       )

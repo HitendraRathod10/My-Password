@@ -18,7 +18,7 @@ class DocsProvider extends ChangeNotifier{
   pickFiles(BuildContext context) async{
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg','pdf','doc','png','jpeg','txt','xls','docx','svg'],
+        allowedExtensions: ['jpg','pdf','doc','png','jpeg','xls','docx'],
         allowMultiple: true
     );
     if (result != null) {
