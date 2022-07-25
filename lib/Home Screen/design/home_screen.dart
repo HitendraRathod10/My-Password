@@ -20,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   check() async {
     SharedPreferences prefg = await SharedPreferences.getInstance();
     prefg.setBool("key", true);
+    print("helo");
   }
 
   @override
