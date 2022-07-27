@@ -6,7 +6,7 @@ import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 import '../design/login_screen.dart';
 
 class LoginProvider extends ChangeNotifier{
-  bool loginPswd =  true;
+  bool loginPswd =  false;
   final _auth = FirebaseAuth.instance;
 
   checkPasswordVisibility() {
@@ -15,6 +15,7 @@ class LoginProvider extends ChangeNotifier{
   }
 
   loginWithEmail(String email,String password,BuildContext context)async{
+    loginPswd = false;
     EasyLoading.show(status: 'loading...');
     try {
       email = email.trim();

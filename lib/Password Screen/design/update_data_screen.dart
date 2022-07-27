@@ -48,7 +48,7 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
     snapshot.accountNoController.clear();
     snapshot.ifscController.clear();
     snapshot.cvvController.clear();
-    Provider.of<UpdateDataProvider>(context, listen: false).isObscurePassword = true;
+    Provider.of<UpdateDataProvider>(context, listen: false).isObscurePassword = false;
     Navigator.pop(context);
   }
 
@@ -86,7 +86,7 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                   snapshot.accountNoController.clear();
                   snapshot.ifscController.clear();
                   snapshot.cvvController.clear();
-                  Provider.of<UpdateDataProvider>(context, listen: false).isObscurePassword = true;
+                  Provider.of<UpdateDataProvider>(context, listen: false).isObscurePassword = false;
                   Navigator.pop(context);
                   // Get.back();
                 },
@@ -235,13 +235,29 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
                     child: TextFormField(
-                      controller: snapshot.creditDebitController,
+                      controller: snapshot.creditDebitMask,
                       focusNode: creditDebitFocusNode,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.number,
                       cursorColor: AppColor.darkMaroon,
                       decoration: const InputDecoration(
                         labelText: 'Credit/Debit Card No.',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
+                    child: TextFormField(
+                      controller: snapshot.expiredDateMask,
+                      // focusNode: creditDebitFocusNode,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'Expired Date',
                         labelStyle: TextStyle(
                             color: AppColor.greyDivider,
                             fontFamily: AppFont.regular),
@@ -271,20 +287,19 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                       focusNode: passwordPINFocusNode,
                       textInputAction: TextInputAction.next,
                       cursorColor: AppColor.darkMaroon,
-                      obscureText: snapshot.isObscurePassword ? true : false,
+                      obscureText: snapshot.isObscurePassword ? false : true,
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                             highlightColor: Colors.transparent,
                             onPressed: () {
                               snapshot.checkPasswordVisibility();
-                              print(snapshot.isObscurePassword);
                             },
                             icon: snapshot.isObscurePassword == false
                                 ? const Icon(
-                                    Icons.visibility,
+                                    Icons.visibility_off,
                                     color: AppColor.darkMaroon,
                                   )
-                                : const Icon(Icons.visibility_off,
+                                : const Icon(Icons.visibility,
                                     color: AppColor.darkMaroon)),
                         labelText: 'Password/PIN',
                         labelStyle: const TextStyle(
@@ -299,7 +314,7 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                   InkWell(
                     onTap: () {
                       Provider.of<UpdateDataProvider>(context, listen: false)
-                          .isObscurePassword = true;
+                          .isObscurePassword = false;
                       if (_formKey.currentState!.validate()) {
                         Provider.of<UpdateDataProvider>(context, listen: false)
                             .updateData(
@@ -310,7 +325,8 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                                 snapshot.phoneController.text,
                                 snapshot.accountNoController.text,
                                 snapshot.ifscController.text,
-                                snapshot.creditDebitController.text,
+                                snapshot.creditDebitMask.text,
+                                snapshot.expiredDateMask.text,
                                 snapshot.cvvController.text,
                                 snapshot.passwordPINController.text,
                                 widget.id!,
@@ -321,14 +337,15 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                     },
                     child: Container(
                       height: 45,
-                      width: 145,
+                      // width: 145,
                       decoration: BoxDecoration(
                         color: AppColor.darkMaroon,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: const Center(
+                      child: const Padding(
+                        padding: EdgeInsets.fromLTRB(15,06,15,00),
                         child: Text(
-                          "Update Data",
+                          "Update",
                           style: TextStyle(
                               color: AppColor.white,
                               fontSize: 25,

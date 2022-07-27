@@ -1,13 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:my_pswd/Password%20Screen/design/add_data_screen.dart';
 import 'package:my_pswd/Password%20Screen/design/update_data_screen.dart';
 import 'package:my_pswd/Password%20Screen/provider/show_data_provider.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ShowDataScreen extends StatefulWidget {
   DocumentSnapshot? doc;
@@ -31,6 +35,16 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
     for(int i = 0; i < store!.length; i++){
     storeTwo = storeTwo + "*";
     }
+    check();
+  }
+
+  check(){
+    String text = '${widget.doc!.get("passwordPin")}';
+    print("main ${text}");
+    final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
+    final iv = encrypt.IV.fromLength(16);
+    // print("aa encrypt krse ${encrypter.encrypt(text,iv: encrypt.IV.fromLength(16)).base64.toString()}");
+    print("aa decrypt krse ${encrypter.decrypt(encrypter.encrypt(text, iv: iv), iv: iv)}");
   }
 
   willPop(context) {
@@ -194,8 +208,22 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                     padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
                     child: Row(
                       children: [
-                        const Text("Credit/Debit Card No. : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
+                        const Text("Credit/Debit Card : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
                         Flexible(child: Text("${widget.doc!.get("creditDebitCard")}",
+                          style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
+                      ],
+                    ),
+                  ),
+                  const Divider(
+                    color: AppColor.black,
+                    thickness: 1,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15, 05, 15, 00),
+                    child: Row(
+                      children: [
+                        const Text("Expired Date : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
+                        Flexible(child: Text("${widget.doc!.get("expiredDate")}",
                           style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),))
                       ],
                     ),
@@ -225,15 +253,21 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                         return Row(
                           children: [
                             const Text("Password/PIN : ",style: TextStyle(fontFamily: AppFont.bold,fontSize: 20),),
-                            Container(
-                              width: 148,
-                              alignment: Alignment.centerLeft,
-                              child: snapshot.isObscurePassword ? Text("${widget.doc!.get("passwordPin")}",
-                              style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),
-                              ) :
-                                 Text(storeTwo,style: const TextStyle(fontSize: 20),)
+                            Flexible(
+                              child: Container(
+                                // width: 135,
+                                alignment: Alignment.centerLeft,
+                                child: snapshot.isObscurePassword ?
+                                Text("${widget.doc!.get("passwordPin")}",
+                                style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),
+                                ) :
+                                   Text(storeTwo,style: const TextStyle(fontSize: 20),)
+                              ),
                             ),
-                            const Spacer(),
+                            // const Spacer(),
+                            const SizedBox(
+                              width: 05,
+                            ),
                             InkWell(
                               onTap: (){
                                 snapshot.checkPasswordVisibility();
@@ -252,7 +286,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                                   )
                             ),
                             const SizedBox(
-                              width: 10,
+                              width: 05,
                             ),
                             InkWell(
                               onTap: (){
@@ -281,12 +315,13 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                     },
                     child: Container(
                       height: 45,
-                      width: 95,
+                      // width: 95,
                       decoration: BoxDecoration(
                         color: AppColor.darkMaroon,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child:  const Center(
+                      child:  const Padding(
+                        padding: EdgeInsets.fromLTRB(15,06,15,00),
                         child: Text("Update",
                           style: TextStyle(
                               color: AppColor.white,

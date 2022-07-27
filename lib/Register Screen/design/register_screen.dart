@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
 import 'package:my_pswd/Register%20Screen/provider/register_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:encrypt/encrypt.dart' as encrypt;
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
 
@@ -273,11 +273,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               InkWell(
                 onTap: () {
+                  // final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
                   if(_formKey.currentState!.validate()){
                     Provider.of<RegisterProvider>(context, listen: false)
                         .createNewUser(
                         emailController.text,
                         passwordController.text,
+                        // encrypter.encrypt(passwordController.text,iv: encrypt.IV.fromLength(16)).base64.toString(),
                         firstNameController.text,
                         lastNameController.text,
                         phoneController.text,

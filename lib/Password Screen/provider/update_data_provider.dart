@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
 
 import '../../Home Screen/design/home_screen.dart';
 
@@ -12,6 +13,7 @@ class UpdateDataProvider extends ChangeNotifier{
       String userId, String emailId,
       String phone, String accountNo,
       String ifscCode, String creditDebitCard,
+      String expiredDate,
       String cvv, String passwordPin,
       String id, BuildContext context) async{
     isLoading = true;
@@ -30,6 +32,7 @@ class UpdateDataProvider extends ChangeNotifier{
       "accountNo": accountNo,
       "ifscCode": ifscCode,
       "creditDebitCard": creditDebitCard,
+      "expiredDate": expiredDate,
       "cvv": cvv,
       "passwordPin": passwordPin
     });
@@ -49,6 +52,8 @@ class UpdateDataProvider extends ChangeNotifier{
   var cvvController = TextEditingController();
   var ifscController = TextEditingController();
   var accountNoController = TextEditingController();
+  MaskedTextController creditDebitMask = MaskedTextController(mask: '0000 0000 0000 0000');
+  MaskedTextController expiredDateMask = MaskedTextController(mask: '00/00');
 
   getData(String id)async{
     CollectionReference  collection = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data");
@@ -59,7 +64,8 @@ class UpdateDataProvider extends ChangeNotifier{
     passwordPINController.text = querySnapshots.get("passwordPin");
     phoneController.text = querySnapshots.get("phone");
     emailController.text = querySnapshots.get("emailId");
-    creditDebitController.text = querySnapshots.get("creditDebitCard");
+    creditDebitMask.text = querySnapshots.get("creditDebitCard");
+    expiredDateMask.text = querySnapshots.get("expiredDate");
     cvvController.text = querySnapshots.get("cvv");
     ifscController.text = querySnapshots.get("ifscCode");
     accountNoController.text = querySnapshots.get("accountNo");

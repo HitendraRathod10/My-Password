@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:my_pswd/utils/app_color.dart';
 import 'package:my_pswd/utils/app_font.dart';
 import 'package:my_pswd/utils/app_image.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Home Screen/design/home_screen.dart';
+import '../../Home Screen/provider/home_provider.dart';
 import '../../Login Screen/design/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -21,6 +23,8 @@ class _SplashScreenState extends State<SplashScreen> {
       if (prefg.containsKey("key")) {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        // Provider.of<HomeProvider>(context,listen: false).onItemTapped(0);
+        // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
       } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));

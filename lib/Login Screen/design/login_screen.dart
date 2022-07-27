@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: passwordController,
                         focusNode: myFocusNodePassword,
                         textInputAction: TextInputAction.done,
-                        obscureText: snapshot.loginPswd ? true : false,
+                        obscureText: snapshot.loginPswd ? false : true,
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                               highlightColor: Colors.transparent,
@@ -97,11 +98,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               icon: snapshot.loginPswd == false
                                   ? const Icon(
-                                      Icons.visibility,
+                                      Icons.visibility_off,
                                       color: AppColor.darkMaroon,
                                     )
                                   : const Icon(
-                                      Icons.visibility_off,
+                                      Icons.visibility,
                                       color: AppColor.darkMaroon
                                     )),
                           contentPadding: const EdgeInsets.all(0),
@@ -134,6 +135,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               InkWell(
                 onTap: (){
+                  // final iv = encrypt.IV.fromLength(16);
+                  // final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
+                  // encrypter.decrypt(encrypter.encrypt(passwordController.text, iv: iv), iv: iv)
                   if(_formKey.currentState!.validate()){
                     Provider.of<LoginProvider>(context,listen: false).
                     loginWithEmail(emailController.text, passwordController.text,context);

@@ -11,7 +11,7 @@ class AddDataProvider extends ChangeNotifier {
   bool isObscurePassword = true;
 
   addData(String appName, String userName, String userId, String emailId, String phone,
-  String accountNo, String ifscCode, String creditDebitCard, String cvv,String passwordPin,BuildContext context) async {
+  String accountNo, String ifscCode, String creditDebitCard, String expiredDate, String cvv,String passwordPin,BuildContext context) async {
     isLoading = true;
     // print("email ${FirebaseAuth.instance.currentUser?.email}");
     await FirebaseFirestore.instance
@@ -28,6 +28,7 @@ class AddDataProvider extends ChangeNotifier {
       "accountNo": accountNo,
       "ifscCode": ifscCode,
       "creditDebitCard": creditDebitCard,
+      "expiredDate": expiredDate,
       "cvv": cvv,
       "passwordPin": passwordPin
     });

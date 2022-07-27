@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:my_pswd/Password%20Screen/provider/add_data_provider.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
+import 'package:encrypt/encrypt.dart' as encrypt;
 
 class AddDataScreen extends StatefulWidget {
   @override
@@ -20,6 +22,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
   var cvvController = TextEditingController();
   var ifscController = TextEditingController();
   var accountNoController = TextEditingController();
+  var expiredDateController = TextEditingController();
   FocusNode appNameFocusNode = FocusNode();
   FocusNode userNameFocusNode = FocusNode();
   FocusNode upiUserIdFocusNode = FocusNode();
@@ -30,7 +33,10 @@ class _AddDataScreenState extends State<AddDataScreen> {
   FocusNode cvvFocusNode = FocusNode();
   FocusNode ifscFocusNode = FocusNode();
   FocusNode accountNoFocusNode = FocusNode();
+  FocusNode expiredDateFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
+  MaskedTextController creditDebitMask = MaskedTextController(mask: '0000 0000 0000 0000');
+  MaskedTextController expiredDateMask = MaskedTextController(mask: '00/00');
 
   @override
   Widget build(BuildContext context) {
@@ -217,13 +223,31 @@ class _AddDataScreenState extends State<AddDataScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
                     child: Container(
                       child: TextFormField(
-                        controller: creditDebitController,
+                        controller: creditDebitMask,
                         focusNode: creditDebitFocusNode,
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.number,
                         cursorColor: AppColor.darkMaroon,
                         decoration: const InputDecoration(
                           labelText: 'Credit/Debit Card No.',
+                          labelStyle: TextStyle(
+                              color: AppColor.greyDivider,
+                              fontFamily: AppFont.regular),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
+                    child: Container(
+                      child: TextFormField(
+                        controller: expiredDateMask,
+                        focusNode: expiredDateFocusNode,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        cursorColor: AppColor.darkMaroon,
+                        decoration: const InputDecoration(
+                          labelText: 'Expired Date',
                           labelStyle: TextStyle(
                               color: AppColor.greyDivider,
                               fontFamily: AppFont.regular),
@@ -284,6 +308,11 @@ class _AddDataScreenState extends State<AddDataScreen> {
                   ),
                   InkWell(
                     onTap: () {
+                      final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
+                      final iv = encrypt.IV.fromLength(16);
+                      print("main text ${passwordPINController.text}");
+                      print("encrypt ${encrypter.encrypt(passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString()}");
+                      print("decrypt ${encrypter.decrypt(encrypter.encrypt(passwordPINController.text, iv: iv), iv: iv)}");
                       if (_formKey.currentState!.validate()) {
                         Provider.of<AddDataProvider>(context, listen: false)
                             .addData(
@@ -294,10 +323,12 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                 phoneController.text,
                                 accountNoController.text,
                                 ifscController.text,
-                                creditDebitController.text,
+                                creditDebitMask.text,
+                                expiredDateMask.text,
                                 cvvController.text,
-                                passwordPINController.text,
-                                context);
+                                // passwordPINController.text,
+                                encrypter.encrypt(passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString(),
+                            context);
                       }
                     },
                     child: Provider.of<AddDataProvider>(context, listen: false)

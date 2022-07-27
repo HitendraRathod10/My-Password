@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   check() async {
     SharedPreferences prefg = await SharedPreferences.getInstance();
     prefg.setBool("key", true);
-    print("helo");
+    // print("helo");
   }
 
   @override
@@ -57,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SharedPreferences prefg = await SharedPreferences.getInstance();
               prefg.clear();
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> LoginScreen()));
+              Provider.of<HomeProvider>(context,listen: false).onItemTapped(0);
             },
                 icon: const Icon(
                     Icons.power_settings_new,
