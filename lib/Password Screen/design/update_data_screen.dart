@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
 import '../provider/show_data_provider.dart';
-
+import 'package:encrypt/encrypt.dart' as encrypt;
 class UpdateDataScreen extends StatefulWidget {
   String? id;
   UpdateDataScreen({required this.id});
@@ -306,6 +306,14 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                             color: AppColor.greyDivider,
                             fontFamily: AppFont.regular),
                       ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().isEmpty) {
+                          return '* required';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   const SizedBox(
@@ -313,6 +321,8 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                   ),
                   InkWell(
                     onTap: () {
+                      final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
+                      final iv = encrypt.IV.fromLength(16);
                       Provider.of<UpdateDataProvider>(context, listen: false)
                           .isObscurePassword = false;
                       if (_formKey.currentState!.validate()) {
@@ -328,7 +338,8 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                                 snapshot.creditDebitMask.text,
                                 snapshot.expiredDateMask.text,
                                 snapshot.cvvController.text,
-                                snapshot.passwordPINController.text,
+                                // snapshot.passwordPINController.text,
+                            encrypter.encrypt(snapshot.passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString(),
                                 widget.id!,
                                 context);
                       }

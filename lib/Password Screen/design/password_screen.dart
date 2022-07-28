@@ -66,7 +66,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   return InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                          ShowDataScreen(snapshot.data!.docChanges[index].doc)));
+                          ShowDataScreen(doc: snapshot.data!.docChanges[index].doc)));
                     },
                     child: Slidable(
                       actionPane: const SlidableDrawerActionPane(),

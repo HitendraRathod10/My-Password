@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:encrypt/encrypt.dart';
+// import 'package:encrypt/encrypt.dart';
+// import 'package:encrypt/encrypt.dart';
 // import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
@@ -11,11 +13,13 @@ import 'package:my_pswd/Password%20Screen/provider/show_data_provider.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
+// import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:encrypt/encrypt.dart' as encrypt;
 
 class ShowDataScreen extends StatefulWidget {
   DocumentSnapshot? doc;
-  ShowDataScreen(this.doc, {Key? key}) : super(key: key);
+  ShowDataScreen({required this.doc});
+  // ShowDataScreen(this.doc, {Key? key}) : super(key: key);
 
   @override
   _ShowDataScreenState createState() => _ShowDataScreenState();
@@ -26,26 +30,23 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
   final firebase = FirebaseFirestore.instance;
   String? store;
   String storeTwo = '';
-
+  final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
+  final iv = encrypt.IV.fromLength(16);
+  String decryptData = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    store = widget.doc!.get("passwordPin");
-    for(int i = 0; i < store!.length; i++){
+    decryptData = encrypter.decrypt64(widget.doc!.get("passwordPin"),iv: iv);
+    // print("from init decrypted $decryptData");
+    // store = widget.doc!.get("passwordPin");
+    for(int i = 0; i < decryptData.length; i++){
     storeTwo = storeTwo + "*";
     }
-    check();
+
   }
 
-  check(){
-    String text = '${widget.doc!.get("passwordPin")}';
-    print("main ${text}");
-    final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
-    final iv = encrypt.IV.fromLength(16);
-    // print("aa encrypt krse ${encrypter.encrypt(text,iv: encrypt.IV.fromLength(16)).base64.toString()}");
-    print("aa decrypt krse ${encrypter.decrypt(encrypter.encrypt(text, iv: iv), iv: iv)}");
-  }
+
 
   willPop(context) {
     Provider.of<ShowDataProvider>(context,listen: false).isObscurePassword = false;
@@ -258,7 +259,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                                 // width: 135,
                                 alignment: Alignment.centerLeft,
                                 child: snapshot.isObscurePassword ?
-                                Text("${widget.doc!.get("passwordPin")}",
+                                Text(decryptData,
                                 style: const TextStyle(fontSize: 20,fontFamily: AppFont.regular),
                                 ) :
                                    Text(storeTwo,style: const TextStyle(fontSize: 20),)

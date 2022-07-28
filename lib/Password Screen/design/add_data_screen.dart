@@ -37,7 +37,8 @@ class _AddDataScreenState extends State<AddDataScreen> {
   final _formKey = GlobalKey<FormState>();
   MaskedTextController creditDebitMask = MaskedTextController(mask: '0000 0000 0000 0000');
   MaskedTextController expiredDateMask = MaskedTextController(mask: '00/00');
-
+  final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
+  final iv = encrypt.IV.fromLength(16);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,6 +62,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                 color: AppColor.black,
               ),
               onPressed: () {
+                Provider.of<AddDataProvider>(context,listen: false).isObscurePassword = true;
                 Navigator.pop(context);
                 // Get.back();
               },
@@ -300,6 +302,14 @@ class _AddDataScreenState extends State<AddDataScreen> {
                               color: AppColor.greyDivider,
                               fontFamily: AppFont.regular),
                         ),
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.trim().isEmpty) {
+                            return '* required';
+                          }
+                          return null;
+                        },
                       ),
                     ),
                   ),
@@ -308,11 +318,10 @@ class _AddDataScreenState extends State<AddDataScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                      final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
-                      final iv = encrypt.IV.fromLength(16);
-                      print("main text ${passwordPINController.text}");
-                      print("encrypt ${encrypter.encrypt(passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString()}");
-                      print("decrypt ${encrypter.decrypt(encrypter.encrypt(passwordPINController.text, iv: iv), iv: iv)}");
+                      Provider.of<AddDataProvider>(context,listen: false).isObscurePassword = true;
+                      // print("main text ${passwordPINController.text}");
+                      // print("encrypt ${encrypter.encrypt(passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString()}");
+                      // print("decrypt ${encrypter.decrypt(encrypter.encrypt(passwordPINController.text, iv: iv), iv: iv)}");
                       if (_formKey.currentState!.validate()) {
                         Provider.of<AddDataProvider>(context, listen: false)
                             .addData(
@@ -327,7 +336,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
                                 expiredDateMask.text,
                                 cvvController.text,
                                 // passwordPINController.text,
-                                encrypter.encrypt(passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString(),
+                                encrypter.encrypt(passwordPINController.text,iv: iv).base64.toString(),
                             context);
                       }
                     },
