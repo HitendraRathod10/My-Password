@@ -293,7 +293,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                               onTap: (){
                                 Clipboard.setData(
                                     ClipboardData(
-                                        text: "${widget.doc!.get("passwordPin")}"
+                                        text: "$decryptData"
                                     )
                                 );
                               },
