@@ -40,123 +40,125 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => willPop(context),
-      child: Scaffold(
-        appBar: AppBar(
-          brightness: Brightness.dark,
-          backgroundColor: AppColor.white,
-          shape: const ContinuousRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(70.0),
-              bottomRight: Radius.circular(70.0),
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.dark,
+            backgroundColor: AppColor.darkMaroon,
+            shape: const ContinuousRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(70.0),
+                bottomRight: Radius.circular(70.0),
+              ),
             ),
-          ),
-          leading: Consumer<ShowUpdateNoteProvider>(
-            builder: (context, snapshot, _) {
-              return Padding(
+            leading: Consumer<ShowUpdateNoteProvider>(
+              builder: (context, snapshot, _) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0),
+                  child: IconButton(
+                    iconSize: 30,
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: AppColor.white,
+                    ),
+                    onPressed: () {
+                      snapshot.noteController.clear();
+                      Provider.of<ShowDataProvider>(context,listen: false).isObscurePassword = false;
+                      Navigator.pop(context);
+                    },
+                  ),
+                );
+              }
+            ),
+            centerTitle: false,
+            title: Column(
+              children: const [
+                Text(
+                  "Your note",
+                  style: TextStyle(
+                      color: AppColor.white,
+                      fontSize: 20,
+                      fontFamily: AppFont.medium
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
+            elevation: 0,
+            toolbarHeight: 100,
+            actions: [
+              Padding(
                 padding: const EdgeInsets.only(bottom: 30.0),
                 child: IconButton(
                   iconSize: 30,
                   icon: const Icon(
-                    Icons.arrow_back,
-                    color: AppColor.black,
+                    Icons.delete_forever_rounded,
+                    color: AppColor.white,
                   ),
                   onPressed: () {
-                    snapshot.noteController.clear();
-                    Provider.of<ShowDataProvider>(context,listen: false).isObscurePassword = false;
-                    Navigator.pop(context);
+                    firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(widget.id).delete();
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                    var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
+                    snapshotData.noteController.clear();
                   },
                 ),
-              );
-            }
-          ),
-          centerTitle: false,
-          title: Column(
-            children: const [
-              Text(
-                "Your note",
-                style: TextStyle(
-                    color: AppColor.black,
-                    fontSize: 20,
-                    fontFamily: AppFont.medium
-                ),
               ),
-              SizedBox(
-                height: 30,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30.0),
+                child: IconButton(
+                  iconSize: 30,
+                  icon: const Icon(
+                    Icons.done,
+                    color: AppColor.white,
+                  ),
+                  onPressed: () {
+                    var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
+                    // Provider.of<AddNoteProvider>(context,listen: false).addNote(noteController.text, context);
+                    if(snapshotData.noteController.text.isEmpty || snapshotData.noteController.text == "" || snapshotData.noteController.text.trim() == ""){
+                      print("This is wrong");
+                    }else{
+                      Provider.of<ShowUpdateNoteProvider>(context,listen: false).updateData(snapshotData.noteController.text, widget.id, context);
+                    }
+                    snapshotData.noteController.clear();
+                    // Navigator.pop(context);
+                    // Get.back();
+                  },
+                ),
               ),
             ],
           ),
-          elevation: 0,
-          toolbarHeight: 100,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30.0),
-              child: IconButton(
-                iconSize: 30,
-                icon: const Icon(
-                  Icons.delete_forever_rounded,
-                  color: AppColor.black,
-                ),
-                onPressed: () {
-                  firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(widget.id).delete();
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
-                  var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
-                  snapshotData.noteController.clear();
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 30.0),
-              child: IconButton(
-                iconSize: 30,
-                icon: const Icon(
-                  Icons.done,
-                  color: AppColor.black,
-                ),
-                onPressed: () {
-                  var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
-                  // Provider.of<AddNoteProvider>(context,listen: false).addNote(noteController.text, context);
-                  if(snapshotData.noteController.text.isEmpty || snapshotData.noteController.text == "" || snapshotData.noteController.text.trim() == ""){
-                    print("This is wrong");
-                  }else{
-                    Provider.of<ShowUpdateNoteProvider>(context,listen: false).updateData(snapshotData.noteController.text, widget.id, context);
-                  }
-                  snapshotData.noteController.clear();
-                  // Navigator.pop(context);
-                  // Get.back();
-                },
-              ),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Consumer<ShowUpdateNoteProvider>(
-            builder: (context, snapshot,_) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      color: AppColor.white,
-                      height: MediaQuery.of(context).size.height/1.24,
-                      child: Scrollbar(
-                        child: TextFormField(
-                          controller: snapshot.noteController,
-                          focusNode: appNameFocusNode,
-                          maxLines: null,
-                          // expands: true,
-                          minLines: null,
-                          decoration: const InputDecoration(
-                              hintText: "Type note here",
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.fromLTRB(00, 00, 00, 02)
+          body: SingleChildScrollView(
+            child: Consumer<ShowUpdateNoteProvider>(
+              builder: (context, snapshot,_) {
+                return Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
+                      child: Container(
+                        color: AppColor.white,
+                        height: MediaQuery.of(context).size.height/1.24,
+                        child: Scrollbar(
+                          child: TextFormField(
+                            controller: snapshot.noteController,
+                            focusNode: appNameFocusNode,
+                            maxLines: null,
+                            // expands: true,
+                            minLines: null,
+                            decoration: const InputDecoration(
+                                hintText: "Type note here",
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.fromLTRB(00, 00, 00, 02)
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            }
+                  ],
+                );
+              }
+            ),
           ),
         ),
       ),
