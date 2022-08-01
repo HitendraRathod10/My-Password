@@ -46,7 +46,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
         backgroundColor: AppColor.background,
         appBar: AppBar(
           brightness: Brightness.dark,
-          backgroundColor: AppColor.white,
+          backgroundColor: AppColor.darkMaroon,
           shape: const ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(70.0),
@@ -59,7 +59,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
               iconSize: 30,
               icon: const Icon(
                 Icons.arrow_back,
-                color: AppColor.black,
+                color: AppColor.white,
               ),
               onPressed: () {
                 Provider.of<AddDataProvider>(context,listen: false).isObscurePassword = true;
@@ -74,7 +74,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
               Text(
                 "Add data here",
                 style: TextStyle(
-                    color: AppColor.black,
+                    color: AppColor.white,
                     fontSize: 20,
                     fontFamily: AppFont.medium),
               ),

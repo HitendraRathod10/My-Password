@@ -22,7 +22,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       child: Scaffold(
         appBar: AppBar(
           brightness: Brightness.dark,
-          backgroundColor: Colors.grey.shade300,
+          backgroundColor: AppColor.darkMaroon,
           shape: const ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(70.0),
@@ -35,7 +35,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               iconSize: 30,
               icon: const Icon(
                 Icons.arrow_back,
-                color: AppColor.black,
+                color: AppColor.white,
               ),
               onPressed: () {
                 Navigator.pop(context);
@@ -49,7 +49,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               Text(
                 "Add note",
                 style: TextStyle(
-                    color: AppColor.black,
+                    color: AppColor.white,
                     fontSize: 20,
                     fontFamily: AppFont.medium
                 ),
@@ -68,7 +68,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 iconSize: 30,
                 icon: const Icon(
                   Icons.done,
-                  color: AppColor.black,
+                  color: AppColor.white,
                 ),
                 onPressed: () {
                   if(noteController.text.isEmpty || noteController.text == "" || noteController.text.trim() == ""){

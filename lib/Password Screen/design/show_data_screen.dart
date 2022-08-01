@@ -122,7 +122,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
             title: Column(
               children: const [
                 Text(
-                  "Your data",
+                  "Data",
                   style: TextStyle(
                       color: AppColor.white,
                       fontSize: 20,

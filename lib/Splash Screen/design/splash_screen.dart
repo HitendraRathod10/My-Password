@@ -55,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
               //     width: 200,
               //   ),
               // ),
-              Text("My Password...",
+              Text("Storage App",
                 style: TextStyle(
                     fontSize: 25,
                     fontFamily: AppFont.extraBold,

@@ -74,7 +74,7 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
             title: Column(
               children: const [
                 Text(
-                  "Your note",
+                  "Note",
                   style: TextStyle(
                       color: AppColor.white,
                       fontSize: 20,

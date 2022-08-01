@@ -32,7 +32,7 @@ class _ShowDocScreenState extends State<ShowDocScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Doc"),
+          title: const Text("Document"),
           backgroundColor: AppColor.darkMaroon,
           actions: [
             IconButton(
@@ -88,7 +88,7 @@ class _ShowDocScreenState extends State<ShowDocScreen> {
             ) :
         Column(
           children: const [
-            Text("data")
+            Text("Something went wrong! Please try again later")
           ],
         )
       ),
