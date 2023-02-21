@@ -1,3 +1,4 @@
+import 'package:encrypt/encrypt.dart';
 import 'package:flutter/material.dart';
 import 'package:my_pswd/utils/app_color.dart';
 import 'package:my_pswd/utils/app_font.dart';
@@ -42,24 +43,29 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
+      bottom: false,
       child: Scaffold(
-        // backgroundColor: AppColor.darkMaroon,
+        backgroundColor: AppColor.splashDarkMaroon,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              // Container(
-              //   child: Image.asset(
-              //     AppImage.splashLogo,
-              //     height: 200,
-              //     width: 200,
-              //   ),
-              // ),
-              Text("Storage App",
+            children: [
+              Container(
+                child: Image.asset(
+                  AppImage.splashLogo,
+                  height: 250,
+                  width: 250,
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              const Text("Sensitive Storage",
                 style: TextStyle(
-                    fontSize: 25,
-                    fontFamily: AppFont.extraBold,
-                    color: AppColor.darkMaroon
+                    fontSize: 30,
+                    fontFamily: AppFont.bold,
+                    color: AppColor.white
                 ),
               )
             ],

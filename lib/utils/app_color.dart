@@ -14,6 +14,7 @@ class AppColor{
   static const greyDivider = Color(0xFF707070);
   static const white = Color(0xFFFFFFFF);
   static const darkMaroon = Color(0xFF660000);
+  static const splashDarkMaroon = Color(0xFF6D0616);
   static const redMed = Color(0xFF9e2429);
   static const background = Color(0xFFF5F5F5);
   static const lightGrey = Color(0xFFEEEEEE);
