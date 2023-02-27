@@ -66,20 +66,38 @@ class _DocsScreenState extends State<DocsScreen> {
                           ));
                         },
                         child: Slidable(
-                          actionPane: const SlidableDrawerActionPane(),
-                          actionExtentRatio: 0.25,
-                          secondaryActions: [
-                            IconSlideAction(
-                              caption: 'Delete',
-                              color: Colors.red,
-                              icon: Icons.delete,
-                              onTap: () {
-                                var x = snapshot.data!.docChanges[index];
-                                firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Docs").doc(x.doc.id).delete();
-                                setState(() {});
-                              },
-                            ),
-                          ],
+                          endActionPane: ActionPane(
+                            motion: const ScrollMotion(),
+                            extentRatio: 0.25,
+                            children: [
+                              SlidableAction(
+                                autoClose: true,
+                                onPressed: (_){
+                                  var x = snapshot.data!.docChanges[index];
+                                  firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Docs").doc(x.doc.id).delete();
+                                  setState(() {});
+                                },
+                                backgroundColor: AppColor.darkMaroon,
+                                foregroundColor: Colors.white,
+                                icon: Icons.delete,
+                                // label: 'Delete',
+                              ),
+                            ],
+                          ),
+                          // actionPane: const SlidableDrawerActionPane(),
+                          // actionExtentRatio: 0.25,
+                          // secondaryActions: [
+                          //   IconSlideAction(
+                          //     caption: 'Delete',
+                          //     color: Colors.red,
+                          //     icon: Icons.delete,
+                          //     onTap: () {
+                          //       var x = snapshot.data!.docChanges[index];
+                          //       firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Docs").doc(x.doc.id).delete();
+                          //       setState(() {});
+                          //     },
+                          //   ),
+                          // ],
                           child: Column(
                             children: [
                               Card(

@@ -356,13 +356,14 @@ class _AddDataScreenState extends State<AddDataScreen> {
                             )),
                           )
                         : Container(
-                            height: 45,
-                            width: 95,
+                            // height: 45,
+                            // width: 95,
                             decoration: BoxDecoration(
                               color: AppColor.darkMaroon,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Center(
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "Submit",
                                 style: TextStyle(
