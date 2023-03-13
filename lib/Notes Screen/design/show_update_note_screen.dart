@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_pswd/Notes%20Screen/provider/show_update_note_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -8,16 +9,16 @@ import '../../Home Screen/design/home_screen.dart';
 import '../../Password Screen/provider/show_data_provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
-
+//ignore: must_be_immutable
 class ShowNoteScreen extends StatefulWidget {
-  var id;
-  ShowNoteScreen({required this.id});
+  String id;
+  ShowNoteScreen({Key? key, required this.id}) : super(key: key);
 
   @override
-  _ShowNoteScreenState createState() => _ShowNoteScreenState();
+  ShowNoteScreenState createState() => ShowNoteScreenState();
 }
 
-class _ShowNoteScreenState extends State<ShowNoteScreen> {
+class ShowNoteScreenState extends State<ShowNoteScreen> {
   // String emaiId = '';
   @override
   void initState() {
@@ -43,7 +44,6 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            brightness: Brightness.dark,
             backgroundColor: AppColor.darkMaroon,
             shape: const ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -99,7 +99,7 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
                   ),
                   onPressed: () {
                     firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(widget.id).delete();
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreen()), (route) => false);
                     var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
                     snapshotData.noteController.clear();
                   },
@@ -117,7 +117,7 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
                     var snapshotData = Provider.of<ShowUpdateNoteProvider>(context,listen: false);
                     // Provider.of<AddNoteProvider>(context,listen: false).addNote(noteController.text, context);
                     if(snapshotData.noteController.text.isEmpty || snapshotData.noteController.text == "" || snapshotData.noteController.text.trim() == ""){
-                      print("This is wrong");
+                      debugPrint("This is wrong");
                     }else{
                       Provider.of<ShowUpdateNoteProvider>(context,listen: false).updateData(snapshotData.noteController.text, widget.id, context);
                     }
@@ -128,6 +128,7 @@ class _ShowNoteScreenState extends State<ShowNoteScreen> {
                 ),
               ),
             ],
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
           ),
           body: SingleChildScrollView(
             child: Consumer<ShowUpdateNoteProvider>(

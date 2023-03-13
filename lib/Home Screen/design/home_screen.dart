@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:my_pswd/Docs%20Screen/design/docs_screen.dart';
-import 'package:my_pswd/Notes%20Screen/design/notes_screen.dart';
-import 'package:my_pswd/Password%20Screen/design/password_screen.dart';
 import 'package:my_pswd/utils/app_color.dart';
 import 'package:my_pswd/utils/app_font.dart';
-import 'package:my_pswd/utils/app_image.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../Login Screen/design/login_screen.dart';
 import '../provider/home_provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
 
   check() async {
     SharedPreferences prefg = await SharedPreferences.getInstance();
@@ -56,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(onPressed: () async {
               SharedPreferences prefg = await SharedPreferences.getInstance();
               prefg.clear();
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> LoginScreen()));
+              if (!mounted) return;
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> const LoginScreen()));
               Provider.of<HomeProvider>(context,listen: false).onItemTapped(0);
             },
                 icon: const Icon(

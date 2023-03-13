@@ -5,18 +5,17 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:my_pswd/Password%20Screen/design/add_data_screen.dart';
 import 'package:my_pswd/Password%20Screen/design/show_data_screen.dart';
-import 'package:my_pswd/Password%20Screen/provider/password_provider.dart';
 import 'package:my_pswd/utils/app_color.dart';
-import 'package:provider/provider.dart';
 import '../../utils/app_font.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class PasswordScreen extends StatefulWidget {
+  const PasswordScreen({Key? key}) : super(key: key);
+
   @override
-  _PasswordScreenState createState() => _PasswordScreenState();
+  PasswordScreenState createState() => PasswordScreenState();
 }
 
-class _PasswordScreenState extends State<PasswordScreen> {
+class PasswordScreenState extends State<PasswordScreen> {
 
   final firebase = FirebaseFirestore.instance;
 
@@ -38,7 +37,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
         backgroundColor: AppColor.darkMaroon,
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>AddDataScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>const AddDataScreen()));
         },
       ),
       body: StreamBuilder(

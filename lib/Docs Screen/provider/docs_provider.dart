@@ -20,7 +20,7 @@ class DocsProvider extends ChangeNotifier{
   double progress = 0.0;
   final firebase = FirebaseFirestore.instance;
 
-  pickFiles(BuildContext context) async{
+  pickFiles(BuildContext? context) async{
     final status = await Permission.storage.status;
     if (status.isPermanentlyDenied) {
       await openAppSettings();
@@ -35,25 +35,28 @@ class DocsProvider extends ChangeNotifier{
     if (result != null) {
       EasyLoading.show(status: 'loading...');
       files = result.paths.map((path) => File(path!)).toList();
-      uploadFiles(context);
+      uploadFiles(context!).then((value) {
+        Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreen()), (route) => false);
+      });
       notifyListeners();
     } else {
-      print("else in pickFiles");
+      debugPrint("else in pickFiles");
     }
   }
 
-  uploadFiles(BuildContext context) async{
+  Future uploadFiles(BuildContext? context) async{
     var fileName = files!.map((e) => basename(e.path.toString())).toList();
     final destination = 'images/$fileName';
-    print("file Name :- $fileName");
+    debugPrint("file Name :- $fileName");
     final ref = FirebaseStorage.instance.ref().child(destination).putFile(files!.single);
     final snapshot = await ref.whenComplete(() {});
     final urlDownloads = await snapshot.ref.getDownloadURL().whenComplete(() {});
     addData(urlDownloads,fileName.single);
-    print("url $urlDownloads");
+    debugPrint("url $urlDownloads");
     EasyLoading.dismiss();
-    Provider.of<HomeProvider>(context,listen: false).onItemTapped(2);
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+    // Provider.of<HomeProvider>(context!,listen: false).onItemTapped(2);
+    // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const HomeScreen()), (route) => false);
     notifyListeners();
     return urlDownloads;
   }
@@ -75,36 +78,37 @@ class DocsProvider extends ChangeNotifier{
     Directory? directory;
     try {
       if (Platform.isAndroid) {
-        if (await _requestPermission(Permission.storage)) {
+        if (await requestPermission(Permission.storage)) {
+        // if (await _requestPermission(Permission.storage)) {
           directory = await getExternalStorageDirectory();
           String newPath = "";
           List<String> paths = directory!.path.split("/");
           for (int x = 1; x < paths.length; x++) {
             String folder = paths[x];
             if (folder != "Android") {
-              newPath += "/" + folder;
-              print("android folder not available $newPath");
+              newPath += "/$folder";
+              debugPrint("android folder not available $newPath");
               notifyListeners();
             } else {
               break;
             }
           }
-          newPath = newPath + "/MyPassword";
-          print("newPath $newPath");
+          newPath = "$newPath/Sensitive Storage";
+          debugPrint("newPath $newPath");
           directory = Directory(newPath);
-          print("directory $directory");
+          debugPrint("directory $directory");
           notifyListeners();
           if (!await directory.exists()) {
             await directory.create(recursive: true);
-            print("directory created");
+            debugPrint("directory created");
             notifyListeners();
           }else{
-            print("else not created");
+            debugPrint("else not created");
           }
           if (await directory.exists()) {
-            File saveFile = File(directory.path + "/$fileName");
-            print("saveFilePATH ${saveFile.path}");
-            print("url $url");
+            File saveFile = File("${directory.path}/$fileName");
+            debugPrint("saveFilePATH ${saveFile.path}");
+            debugPrint("url $url");
             await dio.download(url.toString(), saveFile.path,
                 onReceiveProgress: (value1, value2) {
                   // setState(() {
@@ -114,7 +118,7 @@ class DocsProvider extends ChangeNotifier{
                   // });
                   notifyListeners();
                 });
-            print("saveFilePath ${saveFile.path}");
+            debugPrint("saveFilePath ${saveFile.path}");
             return true;
           }
           return false;
@@ -122,20 +126,20 @@ class DocsProvider extends ChangeNotifier{
           return false;
         }
       } else {
-        if (await _requestPermission(Permission.storage)) {
-          print("permission.storage");
+        if (await requestPermission(Permission.storage)) {
+          debugPrint("permission.storage");
           directory = await getApplicationDocumentsDirectory();
           if (!await directory.exists()) {
-            print("haha");
+            debugPrint("haha");
             await directory.create(recursive: true);
-            print("nana");
+            debugPrint("nana");
           }else{
-            print("directory exist j nthi krti");
+            debugPrint("directory exist j nthi krti");
           }
           if (await directory.exists()) {
-            print("directory path ${directory.path}");
-            File saveFile = File(directory.path + "/$fileName");
-            print("url ${url.toString()}");
+            debugPrint("directory path ${directory.path}");
+            File saveFile = File("${directory.path}/$fileName");
+            debugPrint("url ${url.toString()}");
             await dio.download(url.toString(), saveFile.path,
                 onReceiveProgress: (value1, value2) {
                   // setState(() {
@@ -147,7 +151,7 @@ class DocsProvider extends ChangeNotifier{
                 });
             return true;
           }else{
-            print("else false");
+            debugPrint("else false");
             return false;
           }
 
@@ -183,15 +187,52 @@ class DocsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> _requestPermission(Permission permission) async {
+  // Future<bool> _requestPermission(Permission permission) async {
+  //   if (await permission.isGranted) {
+  //     return true;
+  //   } else {
+  //     PermissionStatus result = await permission.request();
+  //     if (result == PermissionStatus.granted) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+  Future<bool> requestPermission(Permission permission) async {
     if (await permission.isGranted) {
+      notifyListeners();
       return true;
     } else {
-      PermissionStatus result = await permission.request();
-      if (result == PermissionStatus.granted) {
+      var state = await Permission.manageExternalStorage.status;
+      var state2 = await Permission.storage.status;
+      if (!state2.isGranted) {
+        await Permission.storage.request();
+        notifyListeners();
+      }
+      if (!state.isGranted) {
+        await Permission.manageExternalStorage.request();
+        notifyListeners();
+      }
+      if (state2.isGranted) {
+        notifyListeners();
         return true;
       }
+      if (state.isGranted) {
+        notifyListeners();
+        return true;
+      }
+
+      // PermissionStatus result = await permission.request();
+      // print("result ${result.isGranted}");
+      // PermissionStatus resultAccessMediaLocation = await permission.request();
+      // print("resultAccessMediaLocation ${resultAccessMediaLocation.isGranted}");
+      // PermissionStatus resultManageExternalStorage = await permission.request();
+      // print("resultManageExternalStorage ${resultManageExternalStorage.isGranted}");
+      // if (result == PermissionStatus.granted && resultAccessMediaLocation == PermissionStatus.granted && resultManageExternalStorage == PermissionStatus.granted) {
+      //   return true;
+      // }
     }
+    notifyListeners();
     return false;
   }
 }

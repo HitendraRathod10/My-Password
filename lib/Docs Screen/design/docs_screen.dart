@@ -5,16 +5,19 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:my_pswd/Docs%20Screen/design/show_doc_screen.dart';
 import 'package:my_pswd/Docs%20Screen/provider/docs_provider.dart';
+import 'package:my_pswd/utils/app_image.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
 
 class DocsScreen extends StatefulWidget {
+  const DocsScreen({Key? key}) : super(key: key);
+
   @override
-  _DocsScreenState createState() => _DocsScreenState();
+  DocsScreenState createState() => DocsScreenState();
 }
 
-class _DocsScreenState extends State<DocsScreen> {
+class DocsScreenState extends State<DocsScreen> {
 
   final firebase = FirebaseFirestore.instance;
 
@@ -102,15 +105,18 @@ class _DocsScreenState extends State<DocsScreen> {
                             children: [
                               Card(
                                   // color: (index % 2 == 0) ? Colors.grey.shade400 : AppColor.white,
-                                  color: (index % 2 == 0) ? AppColor.white : Colors.grey.shade300,
+                                  color: AppColor.white,
+                                  // color: (index % 2 == 0) ? AppColor.white : Colors.grey.shade300,
                                   child: ListTile(
-                                    leading: ClipOval(
-                                      child: snapshot.data!.docChanges[index].doc.get("doc").toString().contains("pdf") ?
-                                      const Icon(Icons.description,color: AppColor.redMed,size: 55)
-                                      :
-                                      Image.network(snapshot.data!.docChanges[index].doc.get("doc"),fit: BoxFit.cover,height: 60,width: 60),
-                                    ),
-                                    title: Text("${snapshot.data!.docChanges[index].doc.get("name")}",overflow: TextOverflow.ellipsis),
+                                    leading: snapshot.data!.docChanges[index].doc.get("doc").toString().contains("pdf") ?
+                                    Image.asset(AppImage.pdfLogo,fit: BoxFit.fill,height: 45,width: 45,)
+                                    // const Icon(Icons.description_outlined,color: AppColor.redMed,size: 55)
+                                        :
+                                    snapshot.data!.docChanges[index].doc.get("doc").toString().contains("png") ?
+                                    Image.asset(AppImage.pngLogo,fit: BoxFit.fill,height: 45,width: 45,)
+                                        :
+                                    Image.asset(AppImage.jpgLogo,fit: BoxFit.fill,height: 45,width: 45,),
+                                    title: Text(snapshot.data!.docChanges[index].doc.get("name").toString().replaceAll(".jpg", "").replaceAll(".png", "").replaceAll(".jpeg", "").replaceAll(".pdf", ""),overflow: TextOverflow.ellipsis),
                                     trailing: const Icon(Icons.chevron_right),
                                   )
                               ),

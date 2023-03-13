@@ -1,21 +1,22 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
+import 'package:flutter/services.dart';
 import 'package:my_pswd/Password%20Screen/provider/update_data_provider.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
 import '../provider/show_data_provider.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
+
+//ignore: must_be_immutable
 class UpdateDataScreen extends StatefulWidget {
   String? id;
-  UpdateDataScreen({required this.id});
+  UpdateDataScreen({Key? key, required this.id}) : super(key: key);
 
   @override
-  _UpdateDataScreenState createState() => _UpdateDataScreenState();
+  UpdateDataScreenState createState() => UpdateDataScreenState();
 }
 
-class _UpdateDataScreenState extends State<UpdateDataScreen> {
+class UpdateDataScreenState extends State<UpdateDataScreen> {
   FocusNode appNameFocusNode = FocusNode();
   FocusNode userNameFocusNode = FocusNode();
   FocusNode upiUserIdFocusNode = FocusNode();
@@ -59,7 +60,6 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            brightness: Brightness.dark,
             backgroundColor: AppColor.darkMaroon,
             shape: const ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -111,6 +111,7 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
             ),
             elevation: 0,
             toolbarHeight: 100,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
           ),
           body: SingleChildScrollView(
             child: Consumer<UpdateDataProvider>(builder: (context, snapshot, _) {
@@ -323,7 +324,6 @@ class _UpdateDataScreenState extends State<UpdateDataScreen> {
                     InkWell(
                       onTap: () {
                         final encrypter = encrypt.Encrypter(encrypt.AES(encrypt.Key.fromUtf8('my 32 length key................')));
-                        final iv = encrypt.IV.fromLength(16);
                         Provider.of<UpdateDataProvider>(context, listen: false)
                             .isObscurePassword = false;
                         if (_formKey.currentState!.validate()) {

@@ -15,7 +15,7 @@ class UpdateDataProvider extends ChangeNotifier{
       String ifscCode, String creditDebitCard,
       String expiredDate,
       String cvv, String passwordPin,
-      String id, BuildContext context) async{
+      String id, BuildContext? context) async{
     isLoading = true;
     // print("email ${FirebaseAuth.instance.currentUser?.email}");
     await FirebaseFirestore.instance
@@ -37,11 +37,11 @@ class UpdateDataProvider extends ChangeNotifier{
       "passwordPin": passwordPin
     });
     isLoading = false;
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+    Navigator.pushAndRemoveUntil(context!, MaterialPageRoute(builder: (context)=>const HomeScreen()), (route) => false);
     notifyListeners();
   }
 
-  var querySnapshots;
+  DocumentSnapshot? querySnapshots;
   var appNameController = TextEditingController();
   var userNameController = TextEditingController();
   var upiUserIdController = TextEditingController();
@@ -59,18 +59,18 @@ class UpdateDataProvider extends ChangeNotifier{
   getData(String id)async{
     CollectionReference  collection = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Data");
     querySnapshots = await collection.doc(id).get();
-    appNameController.text = querySnapshots.get("appName");
-    userNameController.text = querySnapshots.get("userName");
-    upiUserIdController.text = querySnapshots.get("userId");
+    appNameController.text = querySnapshots!.get("appName");
+    userNameController.text = querySnapshots!.get("userName");
+    upiUserIdController.text = querySnapshots!.get("userId");
     // passwordPINController.text = querySnapshots.get("passwordPin");
-    passwordPINController.text = encrypter.decrypt64(querySnapshots.get("passwordPin"),iv: iv);
-    phoneController.text = querySnapshots.get("phone");
-    emailController.text = querySnapshots.get("emailId");
-    creditDebitMask.text = querySnapshots.get("creditDebitCard");
-    expiredDateMask.text = querySnapshots.get("expiredDate");
-    cvvController.text = querySnapshots.get("cvv");
-    ifscController.text = querySnapshots.get("ifscCode");
-    accountNoController.text = querySnapshots.get("accountNo");
+    passwordPINController.text = encrypter.decrypt64(querySnapshots!.get("passwordPin"),iv: iv);
+    phoneController.text = querySnapshots!.get("phone");
+    emailController.text = querySnapshots!.get("emailId");
+    creditDebitMask.text = querySnapshots!.get("creditDebitCard");
+    expiredDateMask.text = querySnapshots!.get("expiredDate");
+    cvvController.text = querySnapshots!.get("cvv");
+    ifscController.text = querySnapshots!.get("ifscCode");
+    accountNoController.text = querySnapshots!.get("accountNo");
     notifyListeners();
   }
 

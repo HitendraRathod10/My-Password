@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_pswd/Notes%20Screen/provider/add_note_provider.dart';
 import 'package:provider/provider.dart';
-
-import '../../Password Screen/provider/show_data_provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
 
 class AddNoteScreen extends StatefulWidget {
+  const AddNoteScreen({Key? key}) : super(key: key);
+
   @override
-  _AddNoteScreenState createState() => _AddNoteScreenState();
+  AddNoteScreenState createState() => AddNoteScreenState();
 }
 
-class _AddNoteScreenState extends State<AddNoteScreen> {
+class AddNoteScreenState extends State<AddNoteScreen> {
 
-  var noteController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
   FocusNode noteFocusNode = FocusNode();
 
   @override
@@ -21,7 +22,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          brightness: Brightness.dark,
           backgroundColor: AppColor.darkMaroon,
           shape: const ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -72,7 +72,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 ),
                 onPressed: () {
                   if(noteController.text.isEmpty || noteController.text == "" || noteController.text.trim() == ""){
-                    print("This is wrong");
+                    debugPrint("This is wrong");
                   }else{
                     Provider.of<AddNoteProvider>(context,listen: false).addNote(noteController.text, context);
                   }
@@ -82,6 +82,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
               ),
             ),
           ],
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         body: SingleChildScrollView(
           child: Column(

@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:my_pswd/Login%20Screen/provider/login_provider.dart';
 import 'package:my_pswd/Register%20Screen/design/register_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  FocusNode myFocusNodeEmail = new FocusNode();
-  FocusNode myFocusNodePassword = new FocusNode();
+  FocusNode myFocusNodeEmail = FocusNode();
+  FocusNode myFocusNodePassword = FocusNode();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   RegExp passwordValidation = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
@@ -41,91 +41,87 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 30, 30, 00),
-                child: Container(
-                  child: TextFormField(
-                    cursorColor:  AppColor.darkMaroon,
-                    controller: emailController,
-                    focusNode: myFocusNodeEmail,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.all(0),
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: AppColor.darkMaroon
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              // color: AppColor.darkMaroon
-                              )),
-                      labelText: 'Email ID',
-                      labelStyle: TextStyle(
-                          color: AppColor.greyDivider,
-                          fontFamily: AppFont.regular
-                      ),
+                child: TextFormField(
+                  cursorColor:  AppColor.darkMaroon,
+                  controller: emailController,
+                  focusNode: myFocusNodeEmail,
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                    contentPadding: EdgeInsets.all(0),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      color: AppColor.darkMaroon
                     ),
-                    validator: (value) {
-                      if (value!.trim().isEmpty || value.isEmpty) {
-                        return 'Please enter email';
-                      } else if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@"
-                              r"[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return 'Please enter valid email';
-                      } else if (value.trim().isEmpty || value.isEmpty) {
-                        return 'Please enter email';
-                      }
-                      return null;
-                    },
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            // color: AppColor.darkMaroon
+                            )),
+                    labelText: 'Email ID',
+                    labelStyle: TextStyle(
+                        color: AppColor.greyDivider,
+                        fontFamily: AppFont.regular
+                    ),
                   ),
+                  validator: (value) {
+                    if (value!.trim().isEmpty || value.isEmpty) {
+                      return 'Please enter email';
+                    } else if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@"
+                            r"[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value)) {
+                      return 'Please enter valid email';
+                    } else if (value.trim().isEmpty || value.isEmpty) {
+                      return 'Please enter email';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Consumer<LoginProvider>(
                 builder: (context, snapshot,_) {
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(30, 15, 30, 00),
-                    child: Container(
-                      child: TextFormField(
-                        cursorColor: AppColor.darkMaroon,
-                        controller: passwordController,
-                        focusNode: myFocusNodePassword,
-                        textInputAction: TextInputAction.done,
-                        obscureText: snapshot.loginPswd ? false : true,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              highlightColor: Colors.transparent,
-                              onPressed: () {
-                                snapshot.checkPasswordVisibility();
-                              },
-                              icon: snapshot.loginPswd == false
-                                  ? const Icon(
-                                      Icons.visibility_off,
-                                      color: AppColor.darkMaroon,
-                                    )
-                                  : const Icon(
-                                      Icons.visibility,
-                                      color: AppColor.darkMaroon
-                                    )),
-                          contentPadding: const EdgeInsets.all(0),
-                          prefixIcon: const Icon(
-                            Icons.lock,
-                            color: AppColor.darkMaroon
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  // color: AppColor.darkMaroon
+                    child: TextFormField(
+                      cursorColor: AppColor.darkMaroon,
+                      controller: passwordController,
+                      focusNode: myFocusNodePassword,
+                      textInputAction: TextInputAction.done,
+                      obscureText: snapshot.loginPswd ? false : true,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            highlightColor: Colors.transparent,
+                            onPressed: () {
+                              snapshot.checkPasswordVisibility();
+                            },
+                            icon: snapshot.loginPswd == false
+                                ? const Icon(
+                                    Icons.visibility_off,
+                                    color: AppColor.darkMaroon,
+                                  )
+                                : const Icon(
+                                    Icons.visibility,
+                                    color: AppColor.darkMaroon
                                   )),
-                          labelText: 'Password',
-                          labelStyle: const TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
+                        contentPadding: const EdgeInsets.all(0),
+                        prefixIcon: const Icon(
+                          Icons.lock,
+                          color: AppColor.darkMaroon
                         ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty || value.trim().isEmpty) {
-                            return 'Please enter password';
-                          }
-                          return null;
-                        },
+                        focusedBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                // color: AppColor.darkMaroon
+                                )),
+                        labelText: 'Password',
+                        labelStyle: const TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty || value.trim().isEmpty) {
+                          return 'Please enter password';
+                        }
+                        return null;
+                      },
                     ),
                   );
                 }
@@ -143,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     loginWithEmail(emailController.text, passwordController.text,context);
                     // Provider.of<LoginProvider>(context,listen: false).checkPasswordVisibility();
                   }else{
-                    print('else formkey loginscreen');
+                    debugPrint('else formkey loginscreen');
                   }
                 },
                 child: Container(
@@ -181,15 +177,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             InkWell(
               onTap: (){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const RegisterScreen()));
               },
-              child: Container(
-                  child: const Text('Signup',
-                    style: TextStyle(
-                        fontFamily: AppFont.regular,
-                        color: AppColor.darkMaroon
-                    ),
-                  )
+              child: const Text('Signup',
+                style: TextStyle(
+                    fontFamily: AppFont.regular,
+                    color: AppColor.darkMaroon
+                ),
               ),
             )
           ],

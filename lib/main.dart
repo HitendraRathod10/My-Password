@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_pswd/Docs%20Screen/design/docs_screen.dart';
 import 'package:my_pswd/Docs%20Screen/provider/docs_provider.dart';
-import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 import 'package:my_pswd/Home%20Screen/provider/home_provider.dart';
-import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
 import 'package:my_pswd/Login%20Screen/provider/login_provider.dart';
 import 'package:my_pswd/Notes%20Screen/provider/add_note_provider.dart';
 import 'package:my_pswd/Notes%20Screen/provider/show_update_note_provider.dart';
@@ -13,7 +11,6 @@ import 'package:my_pswd/Password%20Screen/provider/add_data_provider.dart';
 import 'package:my_pswd/Password%20Screen/provider/password_provider.dart';
 import 'package:my_pswd/Password%20Screen/provider/show_data_provider.dart';
 import 'package:my_pswd/Password%20Screen/provider/update_data_provider.dart';
-import 'package:my_pswd/Register%20Screen/design/register_screen.dart';
 import 'package:my_pswd/Register%20Screen/provider/register_provider.dart';
 import 'package:my_pswd/Splash%20Screen/design/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -44,7 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         routes: {
-          '/Docs': (context) => DocsScreen(),
+          '/Docs': (context) => const DocsScreen(),
         },
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -53,7 +50,7 @@ class MyApp extends StatelessWidget {
         ),
         // home: RegisterScreen(),
         // home: SplashScreen(),
-        home: SplashScreen(),
+        home: const SplashScreen(),
         builder: EasyLoading.init(),
       ),
     );

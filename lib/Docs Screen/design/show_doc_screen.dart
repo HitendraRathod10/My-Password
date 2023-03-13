@@ -9,22 +9,23 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../utils/app_color.dart';
 
+//ignore: must_be_immutable
 class ShowDocScreen extends StatefulWidget {
   String? doc,name;
-  ShowDocScreen({this.doc,this.name});
+  ShowDocScreen({Key? key, this.doc,this.name}) : super(key: key);
 
   @override
-  _ShowDocScreenState createState() => _ShowDocScreenState();
+  ShowDocScreenState createState() => ShowDocScreenState();
 }
 
-class _ShowDocScreenState extends State<ShowDocScreen> {
+class ShowDocScreenState extends State<ShowDocScreen> {
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.name);
-    print(widget.doc);
+    debugPrint(widget.name);
+    debugPrint("show_doc_screen init ${widget.doc}");
   }
 
   @override
@@ -51,9 +52,10 @@ class _ShowDocScreenState extends State<ShowDocScreen> {
                   final response = await http.get(uri);
                   final bytes = response.bodyBytes;
                   final temp = await getTemporaryDirectory();
-                  final path = '${temp.path}/${widget.name}';
+                  final String path = '${temp.path}/${widget.name}';
                   File(path).writeAsBytesSync(bytes);
-                  await Share.shareFiles([path]);
+                  await Share.shareXFiles([XFile(path)]);
+                  // await Share.shareFiles([path]);
                 },
                 icon: const Icon(
                   Icons.share,
@@ -68,7 +70,7 @@ class _ShowDocScreenState extends State<ShowDocScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: Container(
+              child: SizedBox(
                 height: 400,
                 width: 400,
                 // color: Colors.redAccent,

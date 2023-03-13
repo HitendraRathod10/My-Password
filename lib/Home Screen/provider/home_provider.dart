@@ -8,9 +8,9 @@ class HomeProvider extends ChangeNotifier{
   int selectedIndex = 0;
 
   List<Widget> pages = [
-    PasswordScreen(),
-    NotesScreen(),
-    DocsScreen()
+    const PasswordScreen(),
+    const NotesScreen(),
+    const DocsScreen()
   ];
 
   onItemTapped(int index) {

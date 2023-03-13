@@ -1,32 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:encrypt/encrypt.dart';
-// import 'package:encrypt/encrypt.dart';
-// import 'package:encrypt/encrypt.dart';
-// import 'package:encrypt/encrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_credit_card/credit_card_widget.dart';
-import 'package:my_pswd/Password%20Screen/design/add_data_screen.dart';
 import 'package:my_pswd/Password%20Screen/design/update_data_screen.dart';
 import 'package:my_pswd/Password%20Screen/provider/show_data_provider.dart';
 import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
-// import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:encrypt/encrypt.dart' as encrypt;
 
+//ignore: must_be_immutable
 class ShowDataScreen extends StatefulWidget {
   DocumentSnapshot? doc;
-  ShowDataScreen({required this.doc});
+  ShowDataScreen({Key? key, required this.doc}) : super(key: key);
   // ShowDataScreen(this.doc, {Key? key}) : super(key: key);
 
   @override
-  _ShowDataScreenState createState() => _ShowDataScreenState();
+  ShowDataScreenState createState() => ShowDataScreenState();
 }
 
-class _ShowDataScreenState extends State<ShowDataScreen> {
+class ShowDataScreenState extends State<ShowDataScreen> {
 
   final firebase = FirebaseFirestore.instance;
   String? store;
@@ -42,7 +35,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
     // print("from init decrypted $decryptData");
     // store = widget.doc!.get("passwordPin");
     for(int i = 0; i < decryptData.length; i++){
-    storeTwo = storeTwo + "*";
+    storeTwo = "$storeTwo*";
     }
 
   }
@@ -94,7 +87,6 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            brightness: Brightness.dark,
             backgroundColor: AppColor.darkMaroon,
             shape: const ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -136,6 +128,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
             ),
             elevation: 0,
             toolbarHeight: 100,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
           ),
           body: StreamBuilder<QuerySnapshot>(
             stream: firebase.collection('User').doc(FirebaseAuth.instance.currentUser?.email).collection("Data").snapshots(),
@@ -186,7 +179,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                                             ) :
                                             const Text("**** **** **** ****",style: TextStyle(fontSize: 20),)
                                         ) :
-                                            const Text("—",style: const TextStyle(fontSize: 17),)
+                                            const Text("—",style: TextStyle(fontSize: 17),)
                                       ),
                                       widget.doc!.get("creditDebitCard") != "" ? InkWell(
                                           onTap: (){
@@ -255,7 +248,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                                       child: Container(
                                           alignment: Alignment.centerLeft,
                                         child: snapshot.isObscurePassword ?
-                                        Text("$decryptData",
+                                        Text(decryptData,
                                             style: const TextStyle(
                                                 fontSize: 17
                                             )
@@ -284,7 +277,7 @@ class _ShowDataScreenState extends State<ShowDataScreen> {
                                       onTap: (){
                                         Clipboard.setData(
                                             ClipboardData(
-                                                text: "$decryptData"
+                                                text: decryptData
                                             )
                                         );
                                       },

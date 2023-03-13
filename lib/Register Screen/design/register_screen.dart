@@ -2,29 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
 import 'package:my_pswd/Register%20Screen/provider/register_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
+
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  RegisterScreenState createState() => RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
-  FocusNode myFocusNodeEmail = new FocusNode();
-  FocusNode myFocusNodePassword = new FocusNode();
-  FocusNode myFocusNodeFirstName = new FocusNode();
-  FocusNode myFocusNodeLastName = new FocusNode();
-  FocusNode myFocusNodePhoneNo = new FocusNode();
-  FocusNode myFocusNodeConfirmPassword = new FocusNode();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var confirmPasswordController = TextEditingController();
-  var firstNameController = TextEditingController();
-  var lastNameController = TextEditingController();
-  var phoneController = TextEditingController();
+  FocusNode myFocusNodeEmail = FocusNode();
+  FocusNode myFocusNodePassword = FocusNode();
+  FocusNode myFocusNodeFirstName = FocusNode();
+  FocusNode myFocusNodeLastName = FocusNode();
+  FocusNode myFocusNodePhoneNo = FocusNode();
+  FocusNode myFocusNodeConfirmPassword = FocusNode();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   RegExp passwordValidation = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
 
   @override
@@ -132,43 +133,41 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 10, 30, 00),
-                child: Container(
-                  child: TextFormField(
-                    cursorColor: AppColor.darkMaroon,
-                    controller: emailController,
-                    focusNode: myFocusNodeEmail,
-                    textInputAction: TextInputAction.next,
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.all(0),
-                        prefixIcon: Icon(
-                            Icons.email,
-                            color: AppColor.darkMaroon
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: AppColor.darkGrey
-                            )
-                        ),
-                        labelText: 'Email ID',
-                        labelStyle: TextStyle(
-                            color: AppColor.greyDivider,
-                            fontFamily: AppFont.regular),
-                        // errorStyle: TextStyle(color: AppColor.darkMaroon)
-                    ),
-                    validator: (value) {
-                      if (value!.trim().isEmpty || value.isEmpty) {
-                        return 'Please enter email';
-                      } else if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@"
-                              r"[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return 'Please enter valid email';
-                      } else if (value.trim().isEmpty || value.isEmpty) {
-                        return 'Please enter email';
-                      }
-                      return null;
-                    },
+                child: TextFormField(
+                  cursorColor: AppColor.darkMaroon,
+                  controller: emailController,
+                  focusNode: myFocusNodeEmail,
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(0),
+                      prefixIcon: Icon(
+                          Icons.email,
+                          color: AppColor.darkMaroon
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColor.darkGrey
+                          )
+                      ),
+                      labelText: 'Email ID',
+                      labelStyle: TextStyle(
+                          color: AppColor.greyDivider,
+                          fontFamily: AppFont.regular),
+                      // errorStyle: TextStyle(color: AppColor.darkMaroon)
                   ),
+                  validator: (value) {
+                    if (value!.trim().isEmpty || value.isEmpty) {
+                      return 'Please enter email';
+                    } else if (!RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@"
+                            r"[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value)) {
+                      return 'Please enter valid email';
+                    } else if (value.trim().isEmpty || value.isEmpty) {
+                      return 'Please enter email';
+                    }
+                    return null;
+                  },
                 ),
               ),
               Padding(
@@ -286,7 +285,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         context
                     );
                   }else{
-                    print("else formkey register screen");
+                    debugPrint("else formkey register screen");
                   }
                 },
                 child: Container(
@@ -325,16 +324,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             InkWell(
               onTap: () {
                 Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginScreen()));
+                    MaterialPageRoute(builder: (context) => const LoginScreen()));
               },
-              child: Container(
-                  child: const Text(
+              child: const Text(
                 "Login",
                 style: TextStyle(
-                    fontFamily: AppFont.regular,
-                    color: AppColor.darkMaroon
+                fontFamily: AppFont.regular,
+                color: AppColor.darkMaroon
                 ),
-              )),
+              ),
             ),
           ],
         ),

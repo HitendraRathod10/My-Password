@@ -5,10 +5,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:my_pswd/Notes%20Screen/design/add_note_screen.dart';
 import 'package:my_pswd/Notes%20Screen/design/show_update_note_screen.dart';
-import 'package:provider/provider.dart';
 import '../../utils/app_color.dart';
 import '../../utils/app_font.dart';
-import '../provider/show_update_note_provider.dart';
 
 final _lightColors = [
   // Colors.amber.shade300,
@@ -22,11 +20,13 @@ final _lightColors = [
 ];
 
 class NotesScreen extends StatefulWidget {
+  const NotesScreen({Key? key}) : super(key: key);
+
   @override
-  _NotesScreenState createState() => _NotesScreenState();
+  NotesScreenState createState() => NotesScreenState();
 }
 
-class _NotesScreenState extends State<NotesScreen> {
+class NotesScreenState extends State<NotesScreen> {
 
   double getMinHeight(int index) {
     switch (index % 4) {
@@ -57,15 +57,15 @@ class _NotesScreenState extends State<NotesScreen> {
     // String blankController = Provider.of<ShowUpdateNoteProvider>(context,listen: false).noteController.text;
     // var data =
     // firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc("g882gFtvNGlhAFTtFtNk").delete();
-    // print(firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc("LIM8F6CWGFUMuEmXPEBS").delete());
-    // print("data $data");
+    // debugPrint(firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc("LIM8F6CWGFUMuEmXPEBS").delete());
+    // debugPrint("data $data");
     // var snapshot = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").get();
-    // print(snapshot);
+    // debugPrint(snapshot);
     // for(var x in ){
     //   var idForSend = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes").doc(x.doc.id).id.contains("");
     // }
     }
-    // print("notes screen to showNote id ${widget.doc!.id}");
+    // debugPrint("notes screen to showNote id ${widget.doc!.id}");
     // Provider.of<ShowUpdateNoteProvider>(context,listen: false).getData(widget.id!);
 
 
@@ -80,7 +80,7 @@ class _NotesScreenState extends State<NotesScreen> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AddNoteScreen()));
+              MaterialPageRoute(builder: (context) => const AddNoteScreen()));
         },
       ),
       body: StreamBuilder(
@@ -106,7 +106,7 @@ class _NotesScreenState extends State<NotesScreen> {
           if(snapshot.hasData){
             EasyLoading.dismiss();
             return
-              Container(
+              SizedBox(
                 // padding: const EdgeInsets.only(bottom: 135),
                 height: MediaQuery.of(context).size.height,
                 // height: 200,

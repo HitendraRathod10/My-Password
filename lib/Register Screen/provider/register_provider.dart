@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_pswd/Login%20Screen/design/login_screen.dart';
-import 'package:provider/provider.dart';
 
 class RegisterProvider extends ChangeNotifier{
   bool registerPswd =  true;
@@ -36,23 +35,23 @@ class RegisterProvider extends ChangeNotifier{
 
 
   createNewUser(String email,String password,
-      String fname, String lname, String phone,BuildContext context)async{
+      String fname, String lname, String phone,BuildContext? context)async{
     EasyLoading.show(status: 'loading...');
     email = email.trim();
-    final newUser = await _auth.createUserWithEmailAndPassword(
+    await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    if(newUser != null){
+    // if(newUser != null){
       // startLoading();
       insertData(fname, lname, email, phone);
       // EasyLoading.showToast("Register Successfully",
       //     toastPosition: EasyLoadingToastPosition.bottom,
       // );
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LoginScreen()));
+      Navigator.pushReplacement(context!, MaterialPageRoute(builder: (context)=>const LoginScreen()));
       EasyLoading.dismiss();
       // stopLoading();
-    }else{
-      print("newUser null (createNewUser)");
-    }
+    // }else{
+    //   print("newUser null (createNewUser)");
+    // }
     notifyListeners();
   }
 

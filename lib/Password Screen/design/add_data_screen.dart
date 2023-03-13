@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:my_pswd/Password%20Screen/provider/add_data_provider.dart';
 import 'package:provider/provider.dart';
@@ -7,11 +8,13 @@ import '../../utils/app_font.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 
 class AddDataScreen extends StatefulWidget {
+  const AddDataScreen({Key? key}) : super(key: key);
+
   @override
-  _AddDataScreenState createState() => _AddDataScreenState();
+  AddDataScreenState createState() => AddDataScreenState();
 }
 
-class _AddDataScreenState extends State<AddDataScreen> {
+class AddDataScreenState extends State<AddDataScreen> {
   var appNameController = TextEditingController();
   var userNameController = TextEditingController();
   var upiUserIdController = TextEditingController();
@@ -45,7 +48,6 @@ class _AddDataScreenState extends State<AddDataScreen> {
       child: Scaffold(
         backgroundColor: AppColor.background,
         appBar: AppBar(
-          brightness: Brightness.dark,
           backgroundColor: AppColor.darkMaroon,
           shape: const ContinuousRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -85,6 +87,7 @@ class _AddDataScreenState extends State<AddDataScreen> {
           ),
           elevation: 0,
           toolbarHeight: 100,
+          systemOverlayStyle: SystemUiOverlayStyle.dark,
         ),
         body: SingleChildScrollView(
           child: Consumer<AddDataProvider>(builder: (context, snapshot, _) {
@@ -94,223 +97,201 @@ class _AddDataScreenState extends State<AddDataScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: appNameController,
-                        focusNode: appNameFocusNode,
-                        textInputAction: TextInputAction.next,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'App Name / Bank Name / Account',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.trim().isEmpty) {
-                            return '* required';
-                          }
-                          return null;
-                        },
+                    child: TextFormField(
+                      controller: appNameController,
+                      focusNode: appNameFocusNode,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'App Name / Bank Name / Account',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
+                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().isEmpty) {
+                          return '* required';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
+                    child: TextFormField(
+                      controller: userNameController,
+                      focusNode: userNameFocusNode,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'User Name',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: userNameController,
-                        focusNode: userNameFocusNode,
-                        textInputAction: TextInputAction.next,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'User Name',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: upiUserIdController,
+                      focusNode: upiUserIdFocusNode,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'User ID / Upi ID',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: upiUserIdController,
-                        focusNode: upiUserIdFocusNode,
-                        textInputAction: TextInputAction.next,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'User ID / Upi ID',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: emailController,
+                      focusNode: emailFocusNode,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'Email ID',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: emailController,
-                        focusNode: emailFocusNode,
-                        textInputAction: TextInputAction.next,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'Email ID',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: phoneController,
+                      focusNode: phoneFocusNode,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'Phone no.',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: phoneController,
-                        focusNode: phoneFocusNode,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'Phone no.',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: accountNoController,
+                      focusNode: accountNoFocusNode,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'Account No.',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: accountNoController,
-                        focusNode: accountNoFocusNode,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'Account No.',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: ifscController,
+                      focusNode: ifscFocusNode,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'IFSC Code',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: ifscController,
-                        focusNode: ifscFocusNode,
-                        textInputAction: TextInputAction.next,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'IFSC Code',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: creditDebitMask,
+                      focusNode: creditDebitFocusNode,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'Credit/Debit Card No.',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: creditDebitMask,
-                        focusNode: creditDebitFocusNode,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'Credit/Debit Card No.',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: expiredDateMask,
+                      focusNode: expiredDateFocusNode,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'Expired Date',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: expiredDateMask,
-                        focusNode: expiredDateFocusNode,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'Expired Date',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: cvvController,
+                      focusNode: cvvFocusNode,
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.number,
+                      cursorColor: AppColor.darkMaroon,
+                      decoration: const InputDecoration(
+                        labelText: 'CVV',
+                        labelStyle: TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: cvvController,
-                        focusNode: cvvFocusNode,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        cursorColor: AppColor.darkMaroon,
-                        decoration: const InputDecoration(
-                          labelText: 'CVV',
-                          labelStyle: TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
+                    child: TextFormField(
+                      controller: passwordPINController,
+                      focusNode: passwordPINFocusNode,
+                      textInputAction: TextInputAction.next,
+                      cursorColor: AppColor.darkMaroon,
+                      obscureText: snapshot.isObscurePassword ? true : false,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            highlightColor: Colors.transparent,
+                            onPressed: () {
+                              snapshot.checkPasswordVisibility();
+                            },
+                            icon: snapshot.isObscurePassword == false
+                                ? const Icon(
+                                    Icons.visibility,
+                                    color: AppColor.darkMaroon,
+                                  )
+                                : const Icon(Icons.visibility_off,
+                                    color: AppColor.darkMaroon)),
+                        labelText: 'Password/PIN',
+                        labelStyle: const TextStyle(
+                            color: AppColor.greyDivider,
+                            fontFamily: AppFont.regular),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
-                    child: Container(
-                      child: TextFormField(
-                        controller: passwordPINController,
-                        focusNode: passwordPINFocusNode,
-                        textInputAction: TextInputAction.next,
-                        cursorColor: AppColor.darkMaroon,
-                        obscureText: snapshot.isObscurePassword ? true : false,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              highlightColor: Colors.transparent,
-                              onPressed: () {
-                                snapshot.checkPasswordVisibility();
-                              },
-                              icon: snapshot.isObscurePassword == false
-                                  ? const Icon(
-                                      Icons.visibility,
-                                      color: AppColor.darkMaroon,
-                                    )
-                                  : const Icon(Icons.visibility_off,
-                                      color: AppColor.darkMaroon)),
-                          labelText: 'Password/PIN',
-                          labelStyle: const TextStyle(
-                              color: AppColor.greyDivider,
-                              fontFamily: AppFont.regular),
-                        ),
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.trim().isEmpty) {
-                            return '* required';
-                          }
-                          return null;
-                        },
-                      ),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.trim().isEmpty) {
+                          return '* required';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   const SizedBox(

@@ -6,7 +6,7 @@ import '../../Home Screen/design/home_screen.dart';
 
 class ShowUpdateNoteProvider extends ChangeNotifier{
   final firebase = FirebaseFirestore.instance;
-  var querySnapshots;
+  DocumentSnapshot? querySnapshots;
   var noteController = TextEditingController();
   bool isLoading = false;
 
@@ -14,12 +14,12 @@ class ShowUpdateNoteProvider extends ChangeNotifier{
     // print("got ${id}");
     CollectionReference  collection = firebase.collection('User').doc(FirebaseAuth.instance.currentUser!.email).collection("Notes");
     querySnapshots = await collection.doc(id).get();
-    noteController.text = querySnapshots.get("note");
+    noteController.text = querySnapshots!.get("note");
     // print("in getData note ${noteController.text}");
     notifyListeners();
   }
 
-  updateData(String note, String id, BuildContext context) async {
+  updateData(String note, String id, BuildContext? context) async {
     isLoading = true;
     await FirebaseFirestore.instance
         .collection('User')
@@ -30,7 +30,7 @@ class ShowUpdateNoteProvider extends ChangeNotifier{
       "note": note,
     });
     isLoading = false;
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);
+    Navigator.pushAndRemoveUntil(context!, MaterialPageRoute(builder: (context)=>const HomeScreen()), (route) => false);
     notifyListeners();
   }
 
