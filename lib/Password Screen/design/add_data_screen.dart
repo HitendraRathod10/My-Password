@@ -246,7 +246,10 @@ class AddDataScreenState extends State<AddDataScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 00, 20, 00),
                     child: TextFormField(
                       controller: cvvController,
-                      focusNode: cvvFocusNode,
+inputFormatters: [
+  LengthLimitingTextInputFormatter(3),
+  FilteringTextInputFormatter.digitsOnly
+],                      focusNode: cvvFocusNode,
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.number,
                       cursorColor: AppColor.darkMaroon,
@@ -304,21 +307,28 @@ class AddDataScreenState extends State<AddDataScreen> {
                       // print("encrypt ${encrypter.encrypt(passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString()}");
                       // print("decrypt ${encrypter.decrypt(encrypter.encrypt(passwordPINController.text, iv: iv), iv: iv)}");
                       if (_formKey.currentState!.validate()) {
-                        Provider.of<AddDataProvider>(context, listen: false)
-                            .addData(
-                                appNameController.text,
-                                userNameController.text,
-                                upiUserIdController.text,
-                                emailController.text,
-                                phoneController.text,
-                                accountNoController.text,
-                                ifscController.text,
-                                creditDebitMask.text,
-                                expiredDateMask.text,
-                                cvvController.text,
-                                // passwordPINController.text,
-                                encrypter.encrypt(passwordPINController.text,iv: iv).base64.toString(),
-                            context);
+                        if(int.parse(expiredDateMask.text.split("/")[0]) <= 12){
+                          Provider.of<AddDataProvider>(context, listen: false)
+                              .addData(
+                              appNameController.text,
+                              userNameController.text,
+                              upiUserIdController.text,
+                              emailController.text,
+                              phoneController.text,
+                              accountNoController.text,
+                              ifscController.text,
+                              creditDebitMask.text,
+                              expiredDateMask.text,
+                              cvvController.text,
+                              // passwordPINController.text,
+                              encrypter.encrypt(passwordPINController.text,iv: iv).base64.toString(),
+                              context);
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text("Please enter valid Expire date."),
+                          ));
+                        }
+
                       }
                     },
                     child: Provider.of<AddDataProvider>(context, listen: false)

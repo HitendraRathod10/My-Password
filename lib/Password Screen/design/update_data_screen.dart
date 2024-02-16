@@ -327,8 +327,10 @@ class UpdateDataScreenState extends State<UpdateDataScreen> {
                         Provider.of<UpdateDataProvider>(context, listen: false)
                             .isObscurePassword = false;
                         if (_formKey.currentState!.validate()) {
-                          Provider.of<UpdateDataProvider>(context, listen: false)
-                              .updateData(
+                          if(int.parse(snapshot.expiredDateMask.text.split("/")[0]) <= 12)
+                            {
+                              Provider.of<UpdateDataProvider>(context, listen: false)
+                                  .updateData(
                                   snapshot.appNameController.text,
                                   snapshot.userNameController.text,
                                   snapshot.upiUserIdController.text,
@@ -340,9 +342,14 @@ class UpdateDataScreenState extends State<UpdateDataScreen> {
                                   snapshot.expiredDateMask.text,
                                   snapshot.cvvController.text,
                                   // snapshot.passwordPINController.text,
-                              encrypter.encrypt(snapshot.passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString(),
+                                  encrypter.encrypt(snapshot.passwordPINController.text,iv: encrypt.IV.fromLength(16)).base64.toString(),
                                   widget.id!,
                                   context);
+                            }else{
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                              content: Text("Please enter valid Expire date."),
+                            ));
+                          }
                         }
                         // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>UpdateDataScreen()));
                         // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (route) => false);

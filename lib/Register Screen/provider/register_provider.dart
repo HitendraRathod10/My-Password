@@ -39,14 +39,25 @@ class RegisterProvider extends ChangeNotifier{
     EasyLoading.show(status: 'loading...');
     email = email.trim();
     await _auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    // if(newUser != null){
-      // startLoading();
+        email: email, password: password).then((value){
       insertData(fname, lname, email, phone);
       // EasyLoading.showToast("Register Successfully",
       //     toastPosition: EasyLoadingToastPosition.bottom,
       // );
       Navigator.pushReplacement(context!, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+    },onError: (e){
+          print(e);
+      ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
+        content: Text("Email ID already Exist"),
+      ));
+    }).catchError((e){
+      ScaffoldMessenger.of(context!).showSnackBar(SnackBar(
+        content: Text("e"),
+      ));
+    });
+    // if(newUser != null){
+      // startLoading();
+
       EasyLoading.dismiss();
       // stopLoading();
     // }else{
