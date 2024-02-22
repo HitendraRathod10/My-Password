@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:my_pswd/Home%20Screen/design/home_screen.dart';
 import 'package:my_pswd/Home%20Screen/provider/home_provider.dart';
@@ -74,94 +76,43 @@ class DocsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<bool> savePdf(url, fileName) async {
+  Future<void> savePdf(url, fileName) async {
     Directory? directory;
     try {
       if (Platform.isAndroid) {
-        if (await requestPermission(Permission.storage)) {
-        // if (await _requestPermission(Permission.storage)) {
-          directory = await getExternalStorageDirectory();
-          String newPath = "";
-          List<String> paths = directory!.path.split("/");
-          for (int x = 1; x < paths.length; x++) {
-            String folder = paths[x];
-            if (folder != "Android") {
-              newPath += "/$folder";
-              debugPrint("android folder not available $newPath");
-              notifyListeners();
-            } else {
-              break;
-            }
-          }
-          newPath = "$newPath/Sensitive Storage";
-          debugPrint("newPath $newPath");
-          directory = Directory(newPath);
-          debugPrint("directory $directory");
-          notifyListeners();
-          if (!await directory.exists()) {
-            await directory.create(recursive: true);
-            debugPrint("directory created");
-            notifyListeners();
-          }else{
-            debugPrint("else not created");
-          }
-          if (await directory.exists()) {
-            File saveFile = File("${directory.path}/$fileName");
-            debugPrint("saveFilePATH ${saveFile.path}");
-            debugPrint("url $url");
-            await dio.download(url.toString(), saveFile.path,
-                onReceiveProgress: (value1, value2) {
-                  // setState(() {
-                    progress = value1 / value2;
-                    EasyLoading.showProgress(
-                        progress, status: 'downloading...');
-                  // });
-                  notifyListeners();
-                });
-            debugPrint("saveFilePath ${saveFile.path}");
-            return true;
-          }
-          return false;
+        final status = await Permission.storage.request();
+        DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        debugPrint('DeviceSdk=>${androidInfo.version.sdkInt}');
+        if (androidInfo.version.sdkInt! >= 33) {
         } else {
-          return false;
+          await Permission.storage.status.isGranted;
         }
-      } else {
-        if (await requestPermission(Permission.storage)) {
-          debugPrint("permission.storage");
-          directory = await getApplicationDocumentsDirectory();
-          if (!await directory.exists()) {
-            debugPrint("haha");
-            await directory.create(recursive: true);
-            debugPrint("nana");
-          }else{
-            debugPrint("directory exist j nthi krti");
-          }
-          if (await directory.exists()) {
-            debugPrint("directory path ${directory.path}");
-            File saveFile = File("${directory.path}/$fileName");
-            debugPrint("url ${url.toString()}");
-            await dio.download(url.toString(), saveFile.path,
-                onReceiveProgress: (value1, value2) {
-                  // setState(() {
-                    progress = value1 / value2;
-                    EasyLoading.showProgress(
-                        progress, status: 'downloading...');
-                    notifyListeners();
-                  // });
-                });
-            return true;
-          }else{
-            debugPrint("else false");
-            return false;
-          }
+        if (status.isGranted || androidInfo.version.sdkInt! >= 33) {
+          debugPrint('Permission Granted');
+          final externalDir = Platform.isAndroid
+              ? await getExternalStorageDirectory()
+              : await getApplicationDocumentsDirectory();
+          final id = await FlutterDownloader.enqueue(
+              url: url,
+              savedDir: externalDir!.path,
+              showNotification: false,
+              fileName: '$fileName',
+              openFileFromNotification: true,
+              saveInPublicStorage: true)
+              .then((value) {
+            print("after FlutterDownloader.enqueue ${value}");
+            EasyLoading.showSuccess('Downloaded Success!');
+            EasyLoading.dismiss();
 
+          });
+          debugPrint('after download code');
         } else {
-          return false;
+          print("here else permission");
         }
       }
     } catch (e) {
       debugPrint("catch print..........  ${e.toString()}");
-      return false;
     }
   }
 
@@ -170,17 +121,17 @@ class DocsProvider extends ChangeNotifier{
     //   loading = true;
       EasyLoading.showProgress(0.1, status: 'downloading...');
     // });
-    bool downloaded = await savePdf(param0,param1);
+     await savePdf(param0,param1);
     notifyListeners();
-    if (downloaded) {
-      // AppUtils.instance.showToast(toastMessage: "File Downloaded.");
-      EasyLoading.showSuccess('Downloaded Success!');
-      debugPrint("File Downloaded");
-    } else {
-      EasyLoading.showError('Failed with Downloaded');
-      debugPrint("Problem Downloading File");
-    }
-    EasyLoading.dismiss();
+    // if (downloaded) {
+    //   // AppUtils.instance.showToast(toastMessage: "File Downloaded.");
+    //   EasyLoading.showSuccess('Downloaded Success!');
+    //   debugPrint("File Downloaded");
+    // } else {
+    //   EasyLoading.showError('Failed with Downloaded');
+    //   debugPrint("Problem Downloading File");
+    // }
+    // EasyLoading.dismiss();
     // setState(() {
     //   loading = false;
     // });
